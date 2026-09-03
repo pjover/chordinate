@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass, field
 from importlib.resources import files
+from pathlib import Path
 
 
 @dataclass(frozen=True)
@@ -68,7 +70,24 @@ def _load_binding(raw: dict) -> Binding:
     )
 
 
+def _config_search_paths() -> list[Path]:
+    paths = []
+    chordinate_home = os.environ.get("CHORDINATE_HOME")
+    if chordinate_home:
+        paths.append(Path(chordinate_home) / "keymap.json")
+    paths.append(Path.cwd() / "keymap.json")
+    paths.append(Path.home() / ".config" / "chordinate" / "keymap.json")
+    return paths
+
+
+def _load_config_text() -> str:
+    for path in _config_search_paths():
+        if path.is_file():
+            return path.read_text(encoding="utf-8")
+    return files("chordinate.data").joinpath("keymap.json").read_text(encoding="utf-8")
+
+
 def load_bindings() -> list[Binding]:
-    text = files("chordinate.data").joinpath("keymap.json").read_text(encoding="utf-8")
+    text = _load_config_text()
     data = json.loads(text)
     return [_load_binding(raw) for raw in data["bindings"]]
