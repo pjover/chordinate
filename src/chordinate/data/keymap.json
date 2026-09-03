@@ -133,6 +133,25 @@
       "note": "Overlaps Nautilus's own ctrl+t = New Tab — accepted deliberately, matches the same convention browsers use."
     },
     {
+      "id": "switch-tool-window",
+      "action": "Switch Tool Window (Project / Find / Run / Debug / Structure / VCS / ...)",
+      "jetbrains": {
+        "entries": [
+          {"action_id": "ActivateProjectToolWindow", "keys": ["ctrl+alt+1"]},
+          {"action_id": "ActivateBookmarksToolWindow", "keys": ["ctrl+alt+2"]},
+          {"action_id": "ActivateFindToolWindow", "keys": ["ctrl+alt+3"]},
+          {"action_id": "ActivateRunToolWindow", "keys": ["ctrl+alt+4"]},
+          {"action_id": "ActivateDebugToolWindow", "keys": ["ctrl+alt+5"]},
+          {"action_id": "ActivateProblemsViewToolWindow", "keys": ["ctrl+alt+6"]},
+          {"action_id": "ActivateStructureToolWindow", "keys": ["ctrl+alt+7"]},
+          {"action_id": "ActivateServicesToolWindow", "keys": ["ctrl+alt+8"]},
+          {"action_id": "ActivateVersionControlToolWindow", "keys": ["ctrl+alt+9"]},
+          {"action_id": "ActivateCommitToolWindow", "keys": ["ctrl+alt+0"]}
+        ]
+      },
+      "note": "Relocated off $default's own Alt+1..0 onto Ctrl+Alt+1..0 for consistency with the project's Ctrl-based convention. Plain Ctrl+0-9 and Ctrl+Shift+0-9 were already fully claimed in $default (GotoBookmarkN / ToggleBookmarkN), so Ctrl+Alt+digit is the free family — confirmed untouched by Omarchy/Hyprland (which only claims digit combos through Super: Super+N workspace switch, Super+Ctrl+N bar panels, Super+Alt+N group windows) and by VS Code (no default binding on Ctrl+Alt+digit). VS Code's own Ctrl+1-9 (focus editor group N) and Obsidian's own Mod+1-8 (go to tab N, its native default) are deliberately left alone — different concepts (editor groups, open tabs) from JetBrains tool windows, not something to force into false equivalence."
+    },
+    {
       "id": "select-paragraph",
       "action": "Select Paragraph",
       "reserved_key": "ctrl+alt+u",
