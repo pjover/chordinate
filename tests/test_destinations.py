@@ -96,3 +96,20 @@ def test_jetbrains_target_paths_empty_when_no_config_dir(tmp_path, monkeypatch):
     monkeypatch.setenv("HOME", str(tmp_path))
 
     assert JetBrainsDestination().target_paths() == []
+
+
+def test_vscode_target_paths_when_installed(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    (tmp_path / ".config" / "Code").mkdir(parents=True)
+
+    assert VSCodeDestination().target_paths() == [
+        tmp_path / ".config" / "Code" / "User" / "keybindings.json"
+    ]
+
+
+def test_vscode_target_paths_empty_when_not_installed(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+
+    assert VSCodeDestination().target_paths() == []
