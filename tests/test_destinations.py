@@ -1,3 +1,4 @@
+import json
 import platform
 
 from chordinate.destinations.jetbrains import JetBrainsDestination
@@ -113,3 +114,34 @@ def test_vscode_target_paths_empty_when_not_installed(tmp_path, monkeypatch):
     monkeypatch.setenv("HOME", str(tmp_path))
 
     assert VSCodeDestination().target_paths() == []
+
+
+def test_obsidian_target_paths_from_registry(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    vault_dir = tmp_path / "notes"
+    vault_dir.mkdir()
+    registry_dir = tmp_path / ".config" / "obsidian"
+    registry_dir.mkdir(parents=True)
+    registry = {"vaults": {"abc123": {"path": str(vault_dir), "ts": 1}}}
+    (registry_dir / "obsidian.json").write_text(json.dumps(registry), encoding="utf-8")
+
+    assert ObsidianDestination().target_paths() == [vault_dir / ".obsidian" / "hotkeys.json"]
+
+
+def test_obsidian_target_paths_skips_stale_vault(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    registry_dir = tmp_path / ".config" / "obsidian"
+    registry_dir.mkdir(parents=True)
+    registry = {"vaults": {"stale": {"path": str(tmp_path / "deleted-vault"), "ts": 1}}}
+    (registry_dir / "obsidian.json").write_text(json.dumps(registry), encoding="utf-8")
+
+    assert ObsidianDestination().target_paths() == []
+
+
+def test_obsidian_target_paths_empty_when_no_registry(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+
+    assert ObsidianDestination().target_paths() == []
