@@ -244,12 +244,6 @@
       "obsidian": {"entries": [{"command_id": "daily-notes", "key": "ctrl+n"}]}
     },
     {
-      "id": "export-pdf-obsidian-p3-only",
-      "action": "Export to PDF (Obsidian, p3 vault only)",
-      "obsidian": {"entries": [{"command_id": "workspace:export-pdf", "key": "ctrl+shift+p"}]},
-      "note": "p3-vault-specific habit, not part of the canonical set for the other 3 vaults. Frees ctrl+p for Print. Also requires deleting p3's stale empty overrides on command-palette:open / global-search:open / workspace:close-window so those commands fall back to their real defaults — a manual cleanup step, not something a keybinding entry expresses."
-    },
-    {
       "id": "zoom-in-out",
       "action": "Zoom In / Out (whole-app UI scale, not text size)",
       "jetbrains": {

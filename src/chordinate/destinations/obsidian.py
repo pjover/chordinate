@@ -24,7 +24,10 @@ class ObsidianDestination:
         registry_path = obsidian_registry_path()
         if not registry_path.is_file():
             return []
-        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        try:
+            registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return []
         paths = []
         for vault in registry.get("vaults", {}).values():
             vault_path = Path(vault["path"])

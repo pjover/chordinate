@@ -63,7 +63,6 @@ This is the proposed keymap — the omakase default, not a fixed rule. Every row
 | Edit Task (Tasks plugin)       | Ctrl+Shift+T                | No-op without the plugin installed           |
 | Previous / Next Tab            | Ctrl+Shift+Tab / Ctrl+Tab   |                                              |
 | Open Daily Note                | Ctrl+N                      |                                              |
-| Export to PDF                  | Ctrl+Shift+P                | p3 vault only, not part of the canonical set |
 
 ## Tweaking the keymap
 

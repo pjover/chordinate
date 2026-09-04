@@ -21,7 +21,10 @@ def _apply_destination(destination: Destination, content: str) -> None:
         if result.action == "skipped":
             print(f"= already up to date: {path}")
         elif result.action == "backed_up":
-            print(f"~ backed up {path} -> {result.backup_path}, then wrote")
+            print(
+                f"~ backed up {path} -> {result.backup_path}, then wrote "
+                f"(+{result.lines_added}/-{result.lines_removed} lines)"
+            )
         else:
             print(f"+ wrote: {path}")
 
