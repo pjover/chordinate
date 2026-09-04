@@ -1,3 +1,5 @@
+import platform
+
 from chordinate.destinations.jetbrains import JetBrainsDestination
 from chordinate.destinations.obsidian import ObsidianDestination
 from chordinate.destinations.vscode import VSCodeDestination
@@ -71,3 +73,26 @@ def test_all_destinations_render_the_full_real_config_without_error():
     assert "PinActiveTab" in jetbrains_xml
     assert "markdown.extension.editing.toggleCodeSpan" in vscode_json
     assert "workspace:toggle-pin" in obsidian_json
+
+
+def test_jetbrains_target_paths_finds_matching_products(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    jetbrains_dir = tmp_path / ".config" / "JetBrains"
+    (jetbrains_dir / "IdeaIC2026.1").mkdir(parents=True)
+    (jetbrains_dir / "PyCharm2025.2").mkdir(parents=True)
+    (jetbrains_dir / "SomeOtherApp").mkdir(parents=True)
+
+    target_paths = JetBrainsDestination().target_paths()
+
+    assert target_paths == [
+        jetbrains_dir / "IdeaIC2026.1" / "keymaps" / "Personal.xml",
+        jetbrains_dir / "PyCharm2025.2" / "keymaps" / "Personal.xml",
+    ]
+
+
+def test_jetbrains_target_paths_empty_when_no_config_dir(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+
+    assert JetBrainsDestination().target_paths() == []
