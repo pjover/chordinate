@@ -17,6 +17,8 @@ _JETBRAINS_KEY_NAMES = {
     "enter": "ENTER",
     "tab": "TAB",
     "escape": "ESCAPE",
+    "pageup": "PAGE_UP",
+    "pagedown": "PAGE_DOWN",
     "plus": "EQUALS",
     "minus": "MINUS",
     "/": "SLASH",
@@ -39,6 +41,8 @@ _OBSIDIAN_KEY_NAMES = {
     "enter": "Enter",
     "tab": "Tab",
     "escape": "Escape",
+    "pageup": "PageUp",
+    "pagedown": "PageDown",
     "plus": "+",
     "minus": "-",
 }

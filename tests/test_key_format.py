@@ -18,6 +18,11 @@ def test_to_jetbrains_slash_and_numpad_divide():
     assert to_jetbrains("ctrl+numpad_divide") == "control DIVIDE"
 
 
+def test_to_jetbrains_page_keys():
+    assert to_jetbrains("ctrl+pageup") == "control PAGE_UP"
+    assert to_jetbrains("ctrl+pagedown") == "control PAGE_DOWN"
+
+
 def test_to_vscode_passes_through_letters():
     assert to_vscode("ctrl+shift+l") == "ctrl+shift+l"
 
@@ -31,6 +36,11 @@ def test_to_obsidian_maps_ctrl_to_mod_by_default():
     modifiers, key = to_obsidian("ctrl+shift+up")
     assert modifiers == ["Mod", "Shift"]
     assert key == "ArrowUp"
+
+
+def test_to_obsidian_page_keys_keep_camel_case():
+    assert to_obsidian("ctrl+pageup") == (["Mod"], "PageUp")
+    assert to_obsidian("ctrl+pagedown") == (["Mod"], "PageDown")
 
 
 def test_to_obsidian_literal_ctrl_stays_ctrl():

@@ -36,14 +36,13 @@ This is the proposed keymap — the omakase default, not a fixed rule. Every row
 | Organize / Optimize Imports         | Ctrl+Alt+O                      |         ✓          |     ✓      |    —     |                                                       |
 | Rename                              | F2                              | ✓ (+Shift+F6 kept) | ✓ (native) |    —     | Matches Nautilus's F2                                 |
 | Select All Occurrences Under Cursor | Ctrl+Shift+L                    |         ✓          | ✓ (native) |    —     |                                                       |
-| Select Paragraph                    | Ctrl+Alt+U                      |         —          |     —      |    —     | Reserved only — no native action in either editor yet |
 
 ### Markdown
 
-| Action                              | Chord        |       JetBrains        | VS Code |   Obsidian    | Notes                                                         |
-| ----------------------------------- | ------------ | :--------------------: | :-----: | :-----------: | ------------------------------------------------------------- |
-| Surround with `` `code` `` (inline) | Ctrl+Shift+K | ✓ (+Ctrl+Shift+C kept) |    ✓    | Ctrl+Shift+=  | Obsidian keeps its own pre-existing key                       |
-| Surround with code block (fenced)   | Ctrl+Alt+K   |           —            |    ✓    | Ctrl+Shift+\\ | No JetBrains action exists; VS Code needs Markdown All in One |
+| Action                              | Chord        |       JetBrains        | VS Code | Obsidian | Notes                                                         |
+| ----------------------------------- | ------------ | :--------------------: | :-----: | :------: | ------------------------------------------------------------- |
+| Surround with `` `code` `` (inline) | Ctrl+Shift+K | ✓ (+Ctrl+Shift+C kept) |    ✓    |    ✓     | Obsidian moved off its old Ctrl+Shift+=                       |
+| Surround with code block (fenced)   | Ctrl+Alt+K   |           —            |    ✓    |    ✓     | No JetBrains action exists; VS Code needs Markdown All in One |
 
 ### App / window
 
@@ -51,20 +50,21 @@ This is the proposed keymap — the omakase default, not a fixed rule. Every row
 | ----------------------------------------------- | ---------------------- | :------------------: | :----------: | :----------: | ---------------------------------------------------------------------------------- |
 | New / Activate Terminal                         | Ctrl+T                 |          ✓           |      ✓       |      —       | Overlaps Nautilus's Ctrl+T = New Tab, deliberately                                 |
 | Switch Tool Window (Project/Find/Run/Debug/...) | Ctrl+Alt+1..0          |          ✓           |      —       |      —       | VS Code/Obsidian keep their own native editor-group/tab switching                  |
-| Toggle Pin Editor Tab                           | Alt+P                  |          ✓           |      ✓       |      ✓       |                                                                                    |
+| Toggle Pin Editor Tab                           | Ctrl+Alt+P             |          ✓           |      ✓       |      ✓       | Drops JetBrains' Extract Parameter from Ctrl+Alt+P, leaving it unbound             |
+| Reveal Active File in Explorer                  | Ctrl+Shift+Y           |          ✓           |      ✓       |      ✓       | Displaces VS Code's Toggle Debug Console                                           |
+| Open in Default App                             | Ctrl+Alt+E             |          ✓           |      —       |      ✓       | VS Code has no such command                                                        |
+| Show in File Manager                            | Ctrl+Alt+R             |          ✓           |  ✓ (native)  |      ✓       | Obsidian moved off its old Ctrl+Shift+R (Ctrl+Shift+F in p3)                       |
+| Search & Replace                                | Ctrl+R                 |  ✓ (native)          |      ✓       |      ✓       | Displaces VS Code's Open Recent                                                    |
+| Previous / Next Tab                             | Ctrl+PageUp / PageDown |          ✓           |  ✓ (native)  | ✓ (native)   | JetBrains keeps Alt+←/→; Ctrl+Tab left to Switcher / MRU / Obsidian's own default |
 | Zoom In / Out (UI scale)                        | Ctrl+Plus / Ctrl+Minus |          ✓           |  ✓ (native)  |      ✓       | JetBrains' code-folding family relocated to Ctrl+Alt+Shift+Plus/Minus to free this |
 | Copy / Cut / Paste                              | Ctrl+C / X / V         | native (no override) | ✓ (Mac only) | ✓ (Mac only) | Adds working Ctrl+C/X/V on macOS alongside Cmd+C/X/V                               |
 
 ### Obsidian only
 
-| Action                         | Chord                       | Notes                                        |
-| ------------------------------ | --------------------------- | -------------------------------------------- |
-| Reveal Active File in Explorer | Ctrl+Shift+Y                |                                              |
-| Open / Show in Default App     | Ctrl+Shift+E / Ctrl+Shift+R |                                              |
-| Search & Replace               | Ctrl+R                      |                                              |
-| Edit Task (Tasks plugin)       | Ctrl+Shift+T                | No-op without the plugin installed           |
-| Previous / Next Tab            | Ctrl+Shift+Tab / Ctrl+Tab   |                                              |
-| Open Daily Note                | Ctrl+N                      |                                              |
+| Action                   | Chord        | Notes                              |
+| ------------------------ | ------------ | ---------------------------------- |
+| Edit Task (Tasks plugin) | Ctrl+Shift+T | No-op without the plugin installed |
+| Open Daily Note          | Ctrl+N       |                                    |
 
 ## Tweaking the keymap
 
@@ -90,6 +90,7 @@ The first one found wins. If none exist, the bundled default (`src/chordinate/da
 - **Change a chord**: edit the `key` (or `keys`, for JetBrains) value(s) on whichever app block(s) you want to affect. Keys use one canonical notation (`ctrl+shift+l`, lowercase, `+`-joined) — `src/chordinate/key_format.py` translates it into each app's real syntax, so you never write JetBrains/VS Code/Obsidian syntax by hand.
 - **Add a new binding**: append a new object to the `bindings` array with an `id`, a human-readable `action`, and whichever of `jetbrains`/`vscode`/`obsidian` blocks apply — omit any app that shouldn't get the binding.
 - **JetBrains specifically**: `keys` is a list, not a single value, because declaring an `<action>` in the keymap replaces its entire inherited shortcut set. If you're adding a key without wanting to lose a default JetBrains already has for that action, list both keys together (see `rename` in the file for an example).
+- **Removing an app's own default**: JetBrains — give the action an empty `keys` list, which renders an `<action>` with no shortcut at all; that's how a child keymap drops a shortcut inherited from `$default` (see `toggle-pin`, which takes Ctrl+Alt+P away from Extract Parameter). VS Code — add an entry on the same key whose `command` is the displaced one prefixed with `-` (see `search-replace`, which frees Ctrl+R from Open Recent).
 - **Preview the result**: `make run` prints the rendered `Personal.xml`, `keybindings.json`, and `hotkeys.json` content for every binding. `make test` checks the config still loads and renders correctly.
 - **Apply the result**: `make apply` writes the renders into your real editor config — see [Usage](#usage).
 
