@@ -101,7 +101,7 @@
     {
       "id": "comment-line",
       "action": "Comment Line",
-      "cheatsheet": {"group": "Editing"},
+      "cheatsheet": {"group": "Editing", "keys": ["ctrl+/"], "note": "also Ctrl+7 · Ctrl+Numpad÷"},
       "jetbrains": {"entries": [{"action_id": "CommentByLineComment", "keys": ["ctrl+/", "ctrl+7", "ctrl+numpad_divide"]}]},
       "vscode": {
         "entries": [
@@ -127,7 +127,7 @@
     {
       "id": "rename",
       "action": "Rename",
-      "cheatsheet": {"group": "Editing"},
+      "cheatsheet": {"group": "Editing", "keys": ["f2"]},
       "jetbrains": {"entries": [{"action_id": "RenameElement", "keys": ["f2", "shift+f6"]}]},
       "note": "F2 is added alongside JetBrains' own inherited Shift+F6 default, not replacing it — both keys must be declared together or Shift+F6 would be lost. VS Code needs no entry, F2 is already its default. Also matches Nautilus's own F2=Rename convention."
     },
@@ -165,6 +165,13 @@
       "note": "Relocated off $default's own Alt+1..0 onto Ctrl+Alt+1..0 for consistency with the project's Ctrl-based convention. Plain Ctrl+0-9 and Ctrl+Shift+0-9 were already fully claimed in $default (GotoBookmarkN / ToggleBookmarkN), so Ctrl+Alt+digit is the free family — confirmed untouched by Omarchy/Hyprland (which only claims digit combos through Super: Super+N workspace switch, Super+Ctrl+N bar panels, Super+Alt+N group windows) and by VS Code (no default binding on Ctrl+Alt+digit). VS Code's own Ctrl+1-9 (focus editor group N) and Obsidian's own Mod+1-8 (go to tab N, its native default) are deliberately left alone — different concepts (editor groups, open tabs) from JetBrains tool windows, not something to force into false equivalence."
     },
     {
+      "id": "select-paragraph",
+      "action": "Select Paragraph",
+      "cheatsheet": {"group": "Editing"},
+      "reserved_key": "ctrl+alt+u",
+      "note": "Confirmed free in both JetBrains and VS Code's own default keymaps, but no native action exists in either editor to select a whole paragraph. Not implemented — nothing to bind yet. Keeping the key reserved here so nothing else claims ctrl+alt+u later."
+    },
+    {
       "id": "select-all-occurrences",
       "action": "Select All Occurrences Under Cursor (multi-cursor edit)",
       "cheatsheet": {"group": "Editing", "label": "Select All Occurrences Under Cursor"},
@@ -174,30 +181,23 @@
     {
       "id": "surround-with-backticks",
       "action": "Surround with `` (inline code)",
-      "cheatsheet": {"group": "Markdown", "label": "Surround with `code` (inline)"},
+      "cheatsheet": {"group": "Markdown", "label": "Surround with `code` (inline)", "keys": ["ctrl+shift+k"]},
       "jetbrains": {"entries": [{"action_id": "org.intellij.plugins.markdown.ui.actions.styling.ToggleCodeSpanAction", "keys": ["ctrl+shift+k", "ctrl+shift+c"]}]},
       "vscode": {"entries": [{"command": "markdown.extension.editing.toggleCodeSpan", "key": "ctrl+shift+k"}]},
-      "obsidian": {"entries": [{"command_id": "editor:toggle-code", "key": "ctrl+shift+k"}]},
-      "note": "Requires the Markdown All in One VS Code extension (yzhang.markdown-all-in-one) — no built-in alternative exists. ctrl+shift+k displaces VS Code's own Delete Line default, which is harmless since Delete Line already lives on ctrl+y in this project. JetBrains keeps ctrl+shift+c alongside the new key rather than losing its native default. Obsidian's editor:toggle-code moved here from the ctrl+shift+= it had in every vault — there was never a technical reason for the split, only that the vaults already had their own key; ctrl+shift+k is free in Obsidian, whose only K default is Mod+K (Insert Link)."
+      "note": "Requires the Markdown All in One VS Code extension (yzhang.markdown-all-in-one) — no built-in alternative exists. ctrl+shift+k displaces VS Code's own Delete Line default, which is harmless since Delete Line already lives on ctrl+y in this project. JetBrains keeps ctrl+shift+c alongside the new key rather than losing its native default. See toggle-inline-code-obsidian for the equivalent, pre-existing Obsidian binding (kept on its own separate key, not unified)."
     },
     {
       "id": "surround-with-code-block",
       "action": "Surround with code block (fenced)",
       "cheatsheet": {"group": "Markdown"},
       "vscode": {"entries": [{"command": "markdown.extension.editing.toggleCodeBlock", "key": "ctrl+alt+k"}]},
-      "obsidian": {"entries": [{"command_id": "editor:insert-codeblock", "key": "ctrl+alt+k"}]},
-      "note": "No JetBrains action exists for this at all (checked the full bundled Markdown plugin) — dropped there rather than building a custom Live Template, though ctrl+alt+k is confirmed free in $default if one is ever written. Requires the same Markdown All in One VS Code extension as surround-with-backticks. Obsidian's editor:insert-codeblock moved here from the ctrl+shift+\\ it had in every vault, for the same reason as surround-with-backticks; ctrl+alt+k is free in Obsidian."
+      "note": "No JetBrains action exists for this at all (checked the full bundled Markdown plugin) — dropped there rather than building a custom Live Template. Requires the same Markdown All in One VS Code extension as surround-with-backticks. See insert-codeblock-obsidian for the equivalent, pre-existing Obsidian binding (kept on its own separate key, not unified)."
     },
     {
       "id": "toggle-pin",
       "action": "Toggle Pin Editor Tab",
       "cheatsheet": {"group": "App / window"},
-      "jetbrains": {
-        "entries": [
-          {"action_id": "PinActiveTab", "keys": ["ctrl+alt+p"]},
-          {"action_id": "IntroduceParameter", "keys": []}
-        ]
-      },
+      "jetbrains": {"entries": [{"action_id": "PinActiveTab", "keys": ["ctrl+alt+p"]}]},
       "vscode": {
         "entries": [
           {"command": "workbench.action.pinEditor", "key": "ctrl+alt+p", "when": "!activeEditorIsPinned"},
@@ -205,53 +205,30 @@
         ]
       },
       "obsidian": {"entries": [{"command_id": "workspace:toggle-pin", "key": "ctrl+alt+p"}]},
-      "note": "Moved from alt+p to ctrl+alt+p in all three (2026-09-23). VS Code has no single 'toggle pin' command (a feature request for one is still open upstream) — two conditional bindings simulate it. ctrl+alt+p is free in VS Code outside macOS (its only claim there is a Mac-only binding scoped to the Keyboard Shortcuts editor) and free in Obsidian, whose only P default is Mod+P (command palette). In JetBrains it is $default's IntroduceParameter (Extract Parameter): the empty-keys entry above renders as an <action> with no keyboard-shortcut children, which is how a child keymap drops an inherited shortcut, so Extract Parameter is deliberately left with no key at all."
+      "note": "VS Code has no single 'toggle pin' command (a feature request for one is still open upstream) — two conditional bindings simulate it. Displaces JetBrains' default ctrl+alt+p (Introduce Parameter), still reachable via Refactor This (ctrl+alt+shift+t)."
     },
     {
-      "id": "reveal-active-file",
-      "action": "Reveal Active File in Explorer",
-      "cheatsheet": {"group": "App / window"},
-      "jetbrains": {"entries": [{"action_id": "SelectInProjectView", "keys": ["ctrl+shift+y"]}]},
-      "vscode": {
-        "entries": [
-          {"command": "workbench.files.action.showActiveFileInExplorer", "key": "ctrl+shift+y"},
-          {"command": "-workbench.debug.action.toggleRepl", "key": "ctrl+shift+y"}
-        ]
-      },
-      "obsidian": {"entries": [{"command_id": "file-explorer:reveal-active-file", "key": "ctrl+shift+y"}]},
-      "note": "Obsidian's own pre-existing key, extended to the other two. JetBrains' SelectInProjectView ('Select File in Project View') has no $default shortcut and ctrl+shift+y is free there. VS Code's showActiveFileInExplorer has no default shortcut either, but ctrl+shift+y is its Toggle Debug Console — removed here on purpose, the Debug Console is still a click away in the panel."
+      "id": "reveal-active-file-obsidian",
+      "action": "Reveal Active File in Explorer (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Reveal Active File in Explorer"},
+      "obsidian": {"entries": [{"command_id": "file-explorer:reveal-active-file", "key": "ctrl+shift+y"}]}
     },
     {
       "id": "open-with-default-app",
-      "action": "Open / Show in Default App",
-      "cheatsheet": {"group": "App / window", "label": "Open in Default App / Show in File Manager"},
-      "jetbrains": {
-        "entries": [
-          {"action_id": "OpenInAssociatedApplication", "keys": ["ctrl+alt+e"]},
-          {"action_id": "RevealIn", "keys": ["ctrl+alt+r"]}
-        ]
-      },
-      "vscode": {"entries": [{"command": "revealFileInOS", "key": "ctrl+alt+r"}]},
+      "action": "Open / Show in Default App (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Open / Show in Default App"},
       "obsidian": {
         "entries": [
-          {"command_id": "open-with-default-app:open", "key": "ctrl+alt+e"},
-          {"command_id": "open-with-default-app:show", "key": "ctrl+alt+r"}
+          {"command_id": "open-with-default-app:open", "key": "ctrl+shift+o"},
+          {"command_id": "open-with-default-app:show", "key": "ctrl+shift+s"}
         ]
-      },
-      "note": "Moved off the vaults' old ctrl+shift+e / ctrl+shift+r, which are expensive in JetBrains ($default gives them to RecentLocations and ReplaceInPath), onto the ctrl+alt pair. ctrl+alt+r is already VS Code's own native key for revealFileInOS on Linux, so the entry mostly re-states it — and adds it on macOS, where VS Code's default is Cmd+Alt+R and a literal 'ctrl' means the Control key. JetBrains' OpenInAssociatedApplication ('Open in Associated Application') and RevealIn ('Show in File Manager') both exist with no $default shortcut; the only $default claims on these two chords are context-scoped (Console.History.Browse and ToggleFindInSelection on ctrl+alt+e, Diff.ApplyLeftSide on ctrl+alt+r) and are left alone. VS Code has no built-in 'open in the OS default app' command at all, so only the 'show' half reaches it."
+      }
     },
     {
-      "id": "search-replace",
-      "action": "Search & Replace",
-      "cheatsheet": {"group": "Editing"},
-      "vscode": {
-        "entries": [
-          {"command": "editor.action.startFindReplaceAction", "key": "ctrl+r", "when": "editorFocus || editorIsOpen"},
-          {"command": "-workbench.action.openRecent", "key": "ctrl+r"}
-        ]
-      },
-      "obsidian": {"entries": [{"command_id": "editor:open-search-replace", "key": "ctrl+r"}]},
-      "note": "ctrl+r is already JetBrains' $default for Replace, so JetBrains needs no entry — the unification is VS Code catching up with it and with Obsidian, which has used ctrl+r in every vault over its own Mod+H default. In VS Code ctrl+r is File > Open Recent; that default is removed so the chord means one thing everywhere. The when clause mirrors the precondition VS Code puts on its native ctrl+h."
+      "id": "search-replace-obsidian",
+      "action": "Search & Replace (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Search & Replace"},
+      "obsidian": {"entries": [{"command_id": "editor:open-search-replace", "key": "ctrl+r"}]}
     },
     {
       "id": "edit-task-obsidian",
@@ -261,36 +238,43 @@
       "note": "Harmless no-op in a vault without the Tasks plugin installed."
     },
     {
-      "id": "prev-next-tab",
-      "action": "Previous / Next Tab",
-      "cheatsheet": {"group": "App / window", "keys": ["ctrl+pageup", "ctrl+pagedown"]},
-      "jetbrains": {
-        "entries": [
-          {"action_id": "PreviousTab", "keys": ["ctrl+pageup", "alt+left"]},
-          {"action_id": "NextTab", "keys": ["ctrl+pagedown", "alt+right"]}
-        ]
-      },
-      "vscode": {
-        "entries": [
-          {"command": "workbench.action.previousEditor", "key": "ctrl+pageup"},
-          {"command": "workbench.action.nextEditor", "key": "ctrl+pagedown"}
-        ]
-      },
+      "id": "prev-next-tab-obsidian",
+      "action": "Previous / Next Tab (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Previous / Next Tab"},
       "obsidian": {
         "entries": [
-          {"command_id": "workspace:previous-tab", "key": "ctrl+pageup", "literal_ctrl": true},
-          {"command_id": "workspace:previous-tab", "key": "ctrl+shift+tab", "literal_ctrl": true},
-          {"command_id": "workspace:next-tab", "key": "ctrl+pagedown", "literal_ctrl": true},
-          {"command_id": "workspace:next-tab", "key": "ctrl+tab", "literal_ctrl": true}
+          {"command_id": "workspace:previous-tab", "key": "ctrl+shift+tab"},
+          {"command_id": "workspace:next-tab", "key": "ctrl+tab"}
         ]
-      },
-      "note": "ctrl+pageup / ctrl+pagedown is already the native key for exactly this action in both VS Code (previousEditor/nextEditor) and Obsidian (which binds ctrl+tab AND ctrl+pageup/pagedown by default), and it is the same convention browsers and Nautilus use — the cheapest possible unification. Declared for VS Code anyway because its macOS defaults are Cmd-based. JetBrains' PreviousTab/NextTab keep their inherited alt+left / alt+right as secondaries (declaring an action replaces its whole shortcut set), and there ctrl+pageup/pagedown only displaces the EditorMoveToPageTop/Bottom caret moves. Chosen over ctrl+tab precisely so JetBrains' Switcher and VS Code's MRU editor quick-pick both keep ctrl+tab; Obsidian's own ctrl+tab / ctrl+shift+tab defaults are listed here so that rewriting hotkeys.json does not silently drop them. All four Obsidian entries use the literal Ctrl modifier rather than Mod, matching Obsidian's own defaults: Mod would become Cmd on macOS, where Cmd+Tab is the OS app switcher and where JetBrains and VS Code both put this on the Control key."
+      }
+    },
+    {
+      "id": "insert-codeblock-obsidian",
+      "action": "Insert Code Block (Obsidian)",
+      "cheatsheet": false,
+      "obsidian": {"entries": [{"command_id": "editor:insert-codeblock", "key": "ctrl+shift+\\"}]},
+      "note": "Obsidian's own pre-existing binding for the concept behind surround-with-code-block — kept on its own key, not unified with VS Code's ctrl+alt+k."
+    },
+    {
+      "id": "toggle-inline-code-obsidian",
+      "action": "Toggle Inline Code (Obsidian)",
+      "cheatsheet": false,
+      "obsidian": {"entries": [{"command_id": "editor:toggle-code", "key": "ctrl+shift+="}]},
+      "note": "Obsidian's own pre-existing binding for the concept behind surround-with-backticks — kept on its own key, not unified with the ctrl+shift+k used elsewhere."
     },
     {
       "id": "daily-notes-obsidian",
       "action": "Open Daily Note (Obsidian)",
       "cheatsheet": {"group": "Obsidian only", "label": "Open Daily Note"},
       "obsidian": {"entries": [{"command_id": "daily-notes", "key": "ctrl+n"}]}
+    },
+    {
+      "id": "export-pdf",
+      "action": "Export to PDF",
+      "cheatsheet": {"group": "Markdown"},
+      "vscode": {"entries": [{"command": "extension.markdown-pdf.pdf", "key": "shift+alt+p", "when": "editorLangId == markdown"}]},
+      "obsidian": {"entries": [{"command_id": "workspace:export-pdf", "key": "shift+alt+p"}]},
+      "note": "VS Code needs the Markdown PDF extension (yzane.markdown-pdf). No JetBrains binding."
     },
     {
       "id": "zoom-in-out",
