@@ -91,6 +91,7 @@ The first one found wins. If none exist, the bundled default (`src/chordinate/da
 - **Add a new binding**: append a new object to the `bindings` array with an `id`, a human-readable `action`, and whichever of `jetbrains`/`vscode`/`obsidian` blocks apply — omit any app that shouldn't get the binding.
 - **JetBrains specifically**: `keys` is a list, not a single value, because declaring an `<action>` in the keymap replaces its entire inherited shortcut set. If you're adding a key without wanting to lose a default JetBrains already has for that action, list both keys together (see `rename` in the file for an example).
 - **Removing an app's own default**: JetBrains — give the action an empty `keys` list, which renders an `<action>` with no shortcut at all; that's how a child keymap drops a shortcut inherited from `$default` (see `toggle-pin`, which takes Ctrl+Alt+P away from Extract Parameter). VS Code — add an entry on the same key whose `command` is the displaced one prefixed with `-` (see `search-replace`, which frees Ctrl+R from Open Recent).
+- **Cheat sheet**: the optional `cheatsheet` block controls how a binding appears on the printable cheat sheet — `group` (`Editing`, `Markdown`, `App / window`, `Obsidian only`, or any new name), a shorter `label`, an optional `note`, and `keys` to override the chord shown (otherwise it's collected from the app entries). Set `"cheatsheet": false` to leave a binding off the sheet.
 - **Preview the result**: `make run` prints the rendered `Personal.xml`, `keybindings.json`, and `hotkeys.json` content for every binding. `make test` checks the config still loads and renders correctly.
 - **Apply the result**: `make apply` writes the renders into your real editor config — see [Usage](#usage).
 
@@ -133,4 +134,5 @@ make install   # uv sync
 make test      # uv run pytest
 make run       # uv run chordinate — print the renders
 make apply     # uv run chordinate --apply — write them into your live config
+make cheatsheet  # write cheatsheet.html, a printable (A4 landscape) sheet of every chord
 ```

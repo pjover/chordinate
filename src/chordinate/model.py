@@ -28,6 +28,15 @@ class ObsidianEntry:
 
 
 @dataclass(frozen=True)
+class CheatSheetEntry:
+    group: str = "Other"
+    label: str | None = None
+    keys: list[str] = field(default_factory=list)
+    note: str | None = None
+    hidden: bool = False
+
+
+@dataclass(frozen=True)
 class Binding:
     id: str
     action: str
@@ -36,6 +45,7 @@ class Binding:
     obsidian: list[ObsidianEntry] = field(default_factory=list)
     note: str | None = None
     reserved_key: str | None = None
+    cheatsheet: CheatSheetEntry = field(default_factory=CheatSheetEntry)
 
 
 def _load_jetbrains(raw: dict) -> list[JetBrainsEntry]:
@@ -58,6 +68,18 @@ def _load_obsidian(raw: dict) -> list[ObsidianEntry]:
     ]
 
 
+def _load_cheatsheet(raw: dict) -> CheatSheetEntry:
+    entry = raw.get("cheatsheet", {})
+    if entry is False:
+        return CheatSheetEntry(hidden=True)
+    return CheatSheetEntry(
+        group=entry.get("group", "Other"),
+        label=entry.get("label"),
+        keys=list(entry.get("keys", [])),
+        note=entry.get("note"),
+    )
+
+
 def _load_binding(raw: dict) -> Binding:
     return Binding(
         id=raw["id"],
@@ -67,6 +89,7 @@ def _load_binding(raw: dict) -> Binding:
         obsidian=_load_obsidian(raw),
         note=raw.get("note"),
         reserved_key=raw.get("reserved_key"),
+        cheatsheet=_load_cheatsheet(raw),
     )
 
 
