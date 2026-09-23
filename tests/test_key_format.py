@@ -1,4 +1,4 @@
-from chordinate.key_format import to_jetbrains, to_obsidian, to_vscode
+from chordinate.key_format import to_display, to_jetbrains, to_obsidian, to_vscode
 
 
 def test_to_jetbrains_simple_letter():
@@ -37,3 +37,9 @@ def test_to_obsidian_literal_ctrl_stays_ctrl():
     modifiers, key = to_obsidian("ctrl+c", literal_ctrl=True)
     assert modifiers == ["Ctrl"]
     assert key == "C"
+
+
+def test_to_display_uses_printable_names():
+    assert to_display("ctrl+shift+up") == ["Ctrl", "Shift", "↑"]
+    assert to_display("ctrl+numpad_divide") == ["Ctrl", "Numpad÷"]
+    assert to_display("f2") == ["F2"]

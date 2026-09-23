@@ -44,6 +44,17 @@ _OBSIDIAN_KEY_NAMES = {
 }
 
 
+_DISPLAY_NAMES = {
+    "up": "↑",
+    "down": "↓",
+    "left": "←",
+    "right": "→",
+    "numpad_divide": "Numpad÷",
+    "numpad_add": "Numpad+",
+    "numpad_subtract": "Numpad−",
+}
+
+
 def _split(key: str) -> tuple[list[str], str]:
     *modifiers, base = key.lower().split("+")
     return modifiers, base
@@ -69,3 +80,11 @@ def to_obsidian(key: str, literal_ctrl: bool = False) -> tuple[list[str], str]:
     ]
     base_name = _OBSIDIAN_KEY_NAMES.get(base, base.upper() if len(base) == 1 else base.capitalize())
     return modifier_names, base_name
+
+
+def to_display(key: str) -> list[str]:
+    """Human-readable key names for printed material, e.g. ["Ctrl", "Shift", "↑"]."""
+    return [
+        _DISPLAY_NAMES.get(part, part.upper() if len(part) == 1 else part.capitalize())
+        for part in key.lower().split("+")
+    ]

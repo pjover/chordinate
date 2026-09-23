@@ -3,6 +3,7 @@
     {
       "id": "move-line-up-down",
       "action": "Move Line Up / Down",
+      "cheatsheet": {"group": "Editing", "label": "Move / Swap Line Up / Down"},
       "jetbrains": {
         "entries": [
           {"action_id": "MoveLineUp", "keys": ["ctrl+shift+up"]},
@@ -21,6 +22,7 @@
     {
       "id": "swap-line-up-down-obsidian",
       "action": "Swap Line Up / Down (Obsidian)",
+      "cheatsheet": false,
       "obsidian": {
         "entries": [
           {"command_id": "editor:swap-line-up", "key": "ctrl+shift+up"},
@@ -32,6 +34,7 @@
     {
       "id": "move-statement-up-down",
       "action": "Move Statement Up / Down",
+      "cheatsheet": {"group": "Editing"},
       "jetbrains": {
         "entries": [
           {"action_id": "MoveStatementUp", "keys": ["ctrl+alt+shift+up"]},
@@ -43,6 +46,7 @@
     {
       "id": "clone-caret-above-below",
       "action": "Clone Caret Above / Below",
+      "cheatsheet": {"group": "Editing"},
       "jetbrains": {
         "entries": [
           {"action_id": "EditorCloneCaretAbove", "keys": ["shift+alt+up"]},
@@ -61,6 +65,7 @@
     {
       "id": "delete-line",
       "action": "Delete Line",
+      "cheatsheet": {"group": "Editing"},
       "jetbrains": {"entries": [{"action_id": "EditorDeleteLine", "keys": ["ctrl+y"]}]},
       "vscode": {
         "entries": [
@@ -74,6 +79,7 @@
     {
       "id": "join-lines",
       "action": "Join Lines",
+      "cheatsheet": {"group": "Editing"},
       "jetbrains": {"entries": [{"action_id": "EditorJoinLines", "keys": ["ctrl+shift+j"]}]},
       "vscode": {"entries": [{"command": "editor.action.joinLines", "key": "ctrl+shift+j"}]},
       "note": "Plain ctrl+j was rejected — it collides with JetBrains' own Live Template chord and VS Code's own Toggle Panel chord."
@@ -81,18 +87,21 @@
     {
       "id": "insert-line-above",
       "action": "Insert Line Above",
+      "cheatsheet": {"group": "Editing"},
       "jetbrains": {"entries": [{"action_id": "EditorStartNewLineBefore", "keys": ["ctrl+shift+enter"]}]},
       "vscode": {"entries": [{"command": "editor.action.insertLineBefore", "key": "ctrl+shift+enter", "when": "editorTextFocus && !editorReadonly"}]}
     },
     {
       "id": "toggle-word-wrap",
       "action": "Toggle Word Wrap",
+      "cheatsheet": {"group": "Editing"},
       "jetbrains": {"entries": [{"action_id": "EditorToggleUseSoftWraps", "keys": ["alt+z"]}]},
       "vscode": {"entries": [{"command": "editor.action.toggleWordWrap", "key": "alt+z"}]}
     },
     {
       "id": "comment-line",
       "action": "Comment Line",
+      "cheatsheet": {"group": "Editing"},
       "jetbrains": {"entries": [{"action_id": "CommentByLineComment", "keys": ["ctrl+/", "ctrl+7", "ctrl+numpad_divide"]}]},
       "vscode": {
         "entries": [
@@ -106,6 +115,7 @@
     {
       "id": "organize-imports",
       "action": "Organize / Optimize Imports",
+      "cheatsheet": {"group": "Editing"},
       "jetbrains": {"entries": [{"action_id": "OptimizeImports", "keys": ["ctrl+alt+o"]}]},
       "vscode": {
         "entries": [
@@ -117,12 +127,14 @@
     {
       "id": "rename",
       "action": "Rename",
+      "cheatsheet": {"group": "Editing"},
       "jetbrains": {"entries": [{"action_id": "RenameElement", "keys": ["f2", "shift+f6"]}]},
       "note": "F2 is added alongside JetBrains' own inherited Shift+F6 default, not replacing it — both keys must be declared together or Shift+F6 would be lost. VS Code needs no entry, F2 is already its default. Also matches Nautilus's own F2=Rename convention."
     },
     {
       "id": "new-terminal",
       "action": "New / Activate Terminal",
+      "cheatsheet": {"group": "App / window"},
       "jetbrains": {"entries": [{"action_id": "ActivateTerminalToolWindow", "keys": ["ctrl+t"]}]},
       "vscode": {
         "entries": [
@@ -135,6 +147,7 @@
     {
       "id": "switch-tool-window",
       "action": "Switch Tool Window (Project / Find / Run / Debug / Structure / VCS / ...)",
+      "cheatsheet": {"group": "App / window", "label": "Switch Tool Window", "keys": ["ctrl+alt+1..0"], "note": "Project · Find · Run · Debug …"},
       "jetbrains": {
         "entries": [
           {"action_id": "ActivateProjectToolWindow", "keys": ["ctrl+alt+1"]},
@@ -154,18 +167,21 @@
     {
       "id": "select-paragraph",
       "action": "Select Paragraph",
+      "cheatsheet": {"group": "Editing"},
       "reserved_key": "ctrl+alt+u",
       "note": "Confirmed free in both JetBrains and VS Code's own default keymaps, but no native action exists in either editor to select a whole paragraph. Not implemented — nothing to bind yet. Keeping the key reserved here so nothing else claims ctrl+alt+u later."
     },
     {
       "id": "select-all-occurrences",
       "action": "Select All Occurrences Under Cursor (multi-cursor edit)",
+      "cheatsheet": {"group": "Editing", "label": "Select All Occurrences Under Cursor"},
       "jetbrains": {"entries": [{"action_id": "SelectAllOccurrences", "keys": ["ctrl+shift+l"]}]},
       "note": "VS Code needs no entry — ctrl+shift+l is already its native default (editor.action.selectHighlights) for this exact feature. JetBrains' own default was ctrl+alt+shift+j, moved here for cross-editor consistency. Obsidian has no equivalent command."
     },
     {
       "id": "surround-with-backticks",
       "action": "Surround with `` (inline code)",
+      "cheatsheet": {"group": "Markdown", "label": "Surround with `code` (inline)"},
       "jetbrains": {"entries": [{"action_id": "org.intellij.plugins.markdown.ui.actions.styling.ToggleCodeSpanAction", "keys": ["ctrl+shift+k", "ctrl+shift+c"]}]},
       "vscode": {"entries": [{"command": "markdown.extension.editing.toggleCodeSpan", "key": "ctrl+shift+k"}]},
       "note": "Requires the Markdown All in One VS Code extension (yzhang.markdown-all-in-one) — no built-in alternative exists. ctrl+shift+k displaces VS Code's own Delete Line default, which is harmless since Delete Line already lives on ctrl+y in this project. JetBrains keeps ctrl+shift+c alongside the new key rather than losing its native default. See toggle-inline-code-obsidian for the equivalent, pre-existing Obsidian binding (kept on its own separate key, not unified)."
@@ -173,52 +189,58 @@
     {
       "id": "surround-with-code-block",
       "action": "Surround with code block (fenced)",
+      "cheatsheet": {"group": "Markdown"},
       "vscode": {"entries": [{"command": "markdown.extension.editing.toggleCodeBlock", "key": "ctrl+alt+k"}]},
       "note": "No JetBrains action exists for this at all (checked the full bundled Markdown plugin) — dropped there rather than building a custom Live Template. Requires the same Markdown All in One VS Code extension as surround-with-backticks. See insert-codeblock-obsidian for the equivalent, pre-existing Obsidian binding (kept on its own separate key, not unified)."
     },
     {
       "id": "toggle-pin",
       "action": "Toggle Pin Editor Tab",
-      "jetbrains": {"entries": [{"action_id": "PinActiveTab", "keys": ["alt+p"]}]},
+      "cheatsheet": {"group": "App / window"},
+      "jetbrains": {"entries": [{"action_id": "PinActiveTab", "keys": ["ctrl+alt+p"]}]},
       "vscode": {
         "entries": [
-          {"command": "workbench.action.pinEditor", "key": "alt+p", "when": "!activeEditorIsPinned"},
-          {"command": "workbench.action.unpinEditor", "key": "alt+p", "when": "activeEditorIsPinned"}
+          {"command": "workbench.action.pinEditor", "key": "ctrl+alt+p", "when": "!activeEditorIsPinned"},
+          {"command": "workbench.action.unpinEditor", "key": "ctrl+alt+p", "when": "activeEditorIsPinned"}
         ]
       },
-      "obsidian": {"entries": [{"command_id": "workspace:toggle-pin", "key": "alt+p"}]},
-      "note": "VS Code has no single 'toggle pin' command (a feature request for one is still open upstream) — two conditional bindings simulate it. Moved from Obsidian's previous ctrl+shift+p to alt+p to free that key for Export-PDF in the p3 vault."
+      "obsidian": {"entries": [{"command_id": "workspace:toggle-pin", "key": "ctrl+alt+p"}]},
+      "note": "VS Code has no single 'toggle pin' command (a feature request for one is still open upstream) — two conditional bindings simulate it. Displaces JetBrains' default ctrl+alt+p (Introduce Parameter), still reachable via Refactor This (ctrl+alt+shift+t)."
     },
     {
       "id": "reveal-active-file-obsidian",
       "action": "Reveal Active File in Explorer (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Reveal Active File in Explorer"},
       "obsidian": {"entries": [{"command_id": "file-explorer:reveal-active-file", "key": "ctrl+shift+y"}]}
     },
     {
       "id": "open-with-default-app",
       "action": "Open / Show in Default App (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Open / Show in Default App"},
       "obsidian": {
         "entries": [
-          {"command_id": "open-with-default-app:open", "key": "ctrl+shift+e"},
-          {"command_id": "open-with-default-app:show", "key": "ctrl+shift+r"}
+          {"command_id": "open-with-default-app:open", "key": "ctrl+shift+o"},
+          {"command_id": "open-with-default-app:show", "key": "ctrl+shift+s"}
         ]
-      },
-      "note": "The p3 vault previously used ctrl+shift+f for 'show' — unified to ctrl+shift+r to match the other 3 vaults."
+      }
     },
     {
       "id": "search-replace-obsidian",
       "action": "Search & Replace (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Search & Replace"},
       "obsidian": {"entries": [{"command_id": "editor:open-search-replace", "key": "ctrl+r"}]}
     },
     {
       "id": "edit-task-obsidian",
       "action": "Edit Task (Tasks plugin, Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Edit Task (Tasks plugin)"},
       "obsidian": {"entries": [{"command_id": "obsidian-tasks-plugin:edit-task", "key": "ctrl+shift+t"}]},
       "note": "Harmless no-op in a vault without the Tasks plugin installed."
     },
     {
       "id": "prev-next-tab-obsidian",
       "action": "Previous / Next Tab (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Previous / Next Tab"},
       "obsidian": {
         "entries": [
           {"command_id": "workspace:previous-tab", "key": "ctrl+shift+tab"},
@@ -229,29 +251,35 @@
     {
       "id": "insert-codeblock-obsidian",
       "action": "Insert Code Block (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Insert Code Block"},
       "obsidian": {"entries": [{"command_id": "editor:insert-codeblock", "key": "ctrl+shift+\\"}]},
       "note": "Obsidian's own pre-existing binding for the concept behind surround-with-code-block — kept on its own key, not unified with VS Code's ctrl+alt+k."
     },
     {
       "id": "toggle-inline-code-obsidian",
       "action": "Toggle Inline Code (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Toggle Inline Code"},
       "obsidian": {"entries": [{"command_id": "editor:toggle-code", "key": "ctrl+shift+="}]},
       "note": "Obsidian's own pre-existing binding for the concept behind surround-with-backticks — kept on its own key, not unified with the ctrl+shift+k used elsewhere."
     },
     {
       "id": "daily-notes-obsidian",
       "action": "Open Daily Note (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Open Daily Note"},
       "obsidian": {"entries": [{"command_id": "daily-notes", "key": "ctrl+n"}]}
     },
     {
-      "id": "export-pdf-obsidian-p3-only",
-      "action": "Export to PDF (Obsidian, p3 vault only)",
-      "obsidian": {"entries": [{"command_id": "workspace:export-pdf", "key": "ctrl+shift+p"}]},
-      "note": "p3-vault-specific habit, not part of the canonical set for the other 3 vaults. Frees ctrl+p for Print. Also requires deleting p3's stale empty overrides on command-palette:open / global-search:open / workspace:close-window so those commands fall back to their real defaults — a manual cleanup step, not something a keybinding entry expresses."
+      "id": "export-pdf",
+      "action": "Export to PDF",
+      "cheatsheet": {"group": "Markdown"},
+      "vscode": {"entries": [{"command": "extension.markdown-pdf.pdf", "key": "shift+alt+p", "when": "editorLangId == markdown"}]},
+      "obsidian": {"entries": [{"command_id": "workspace:export-pdf", "key": "shift+alt+p"}]},
+      "note": "VS Code needs the Markdown PDF extension (yzane.markdown-pdf). No JetBrains binding."
     },
     {
       "id": "zoom-in-out",
       "action": "Zoom In / Out (whole-app UI scale, not text size)",
+      "cheatsheet": {"group": "App / window", "label": "Zoom In / Out (UI scale)", "keys": ["ctrl+plus", "ctrl+minus"]},
       "jetbrains": {
         "entries": [
           {"action_id": "ExpandAll", "keys": ["ctrl+alt+shift+plus", "ctrl+alt+shift+numpad_add"]},
@@ -273,6 +301,7 @@
     {
       "id": "copy-cut-paste",
       "action": "Copy / Cut / Paste",
+      "cheatsheet": {"group": "App / window"},
       "vscode": {
         "entries": [
           {"command": "editor.action.clipboardCopyAction", "key": "ctrl+c"},

@@ -14,6 +14,7 @@ The keymap config and the renderers for all three destinations (JetBrains `Perso
 
 - [uv](https://docs.astral.sh/uv/)
 - VS Code: [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) — required for the surround-with-backticks and surround-with-code-block bindings, which have no built-in VS Code equivalent.
+- VS Code: [Markdown PDF](https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf) — required for the export-to-PDF binding.
 
 ## Keymap summary
 
@@ -42,6 +43,7 @@ This is the proposed keymap — the omakase default, not a fixed rule. Every row
 | ----------------------------------- | ------------ | :--------------------: | :-----: | :-----------: | ------------------------------------------------------------- |
 | Surround with `` `code` `` (inline) | Ctrl+Shift+K | ✓ (+Ctrl+Shift+C kept) |    ✓    | Ctrl+Shift+=  | Obsidian keeps its own pre-existing key                       |
 | Surround with code block (fenced)   | Ctrl+Alt+K   |           —            |    ✓    | Ctrl+Shift+\\ | No JetBrains action exists; VS Code needs Markdown All in One |
+| Export to PDF                       | Shift+Alt+P  |           —            |    ✓    |       ✓       | VS Code needs Markdown PDF                                    |
 
 ### App / window
 
@@ -49,7 +51,7 @@ This is the proposed keymap — the omakase default, not a fixed rule. Every row
 | ----------------------------------------------- | ---------------------- | :------------------: | :----------: | :----------: | ---------------------------------------------------------------------------------- |
 | New / Activate Terminal                         | Ctrl+T                 |          ✓           |      ✓       |      —       | Overlaps Nautilus's Ctrl+T = New Tab, deliberately                                 |
 | Switch Tool Window (Project/Find/Run/Debug/...) | Ctrl+Alt+1..0          |          ✓           |      —       |      —       | VS Code/Obsidian keep their own native editor-group/tab switching                  |
-| Toggle Pin Editor Tab                           | Alt+P                  |          ✓           |      ✓       |      ✓       |                                                                                    |
+| Toggle Pin Editor Tab                           | Ctrl+Alt+P             |          ✓           |      ✓       |      ✓       | Displaces JetBrains' Introduce Parameter (still in Refactor This)                  |
 | Zoom In / Out (UI scale)                        | Ctrl+Plus / Ctrl+Minus |          ✓           |  ✓ (native)  |      ✓       | JetBrains' code-folding family relocated to Ctrl+Alt+Shift+Plus/Minus to free this |
 | Copy / Cut / Paste                              | Ctrl+C / X / V         | native (no override) | ✓ (Mac only) | ✓ (Mac only) | Adds working Ctrl+C/X/V on macOS alongside Cmd+C/X/V                               |
 
@@ -58,12 +60,11 @@ This is the proposed keymap — the omakase default, not a fixed rule. Every row
 | Action                         | Chord                       | Notes                                        |
 | ------------------------------ | --------------------------- | -------------------------------------------- |
 | Reveal Active File in Explorer | Ctrl+Shift+Y                |                                              |
-| Open / Show in Default App     | Ctrl+Shift+E / Ctrl+Shift+R |                                              |
+| Open / Show in Default App     | Ctrl+Shift+O / Ctrl+Shift+S |                                              |
 | Search & Replace               | Ctrl+R                      |                                              |
 | Edit Task (Tasks plugin)       | Ctrl+Shift+T                | No-op without the plugin installed           |
 | Previous / Next Tab            | Ctrl+Shift+Tab / Ctrl+Tab   |                                              |
 | Open Daily Note                | Ctrl+N                      |                                              |
-| Export to PDF                  | Ctrl+Shift+P                | p3 vault only, not part of the canonical set |
 
 ## Tweaking the keymap
 
@@ -89,6 +90,7 @@ The first one found wins. If none exist, the bundled default (`src/chordinate/da
 - **Change a chord**: edit the `key` (or `keys`, for JetBrains) value(s) on whichever app block(s) you want to affect. Keys use one canonical notation (`ctrl+shift+l`, lowercase, `+`-joined) — `src/chordinate/key_format.py` translates it into each app's real syntax, so you never write JetBrains/VS Code/Obsidian syntax by hand.
 - **Add a new binding**: append a new object to the `bindings` array with an `id`, a human-readable `action`, and whichever of `jetbrains`/`vscode`/`obsidian` blocks apply — omit any app that shouldn't get the binding.
 - **JetBrains specifically**: `keys` is a list, not a single value, because declaring an `<action>` in the keymap replaces its entire inherited shortcut set. If you're adding a key without wanting to lose a default JetBrains already has for that action, list both keys together (see `rename` in the file for an example).
+- **Cheat sheet**: the optional `cheatsheet` block controls how a binding appears on the printable cheat sheet — `group` (`Editing`, `Markdown`, `App / window`, `Obsidian only`, or any new name), a shorter `label`, an optional `note`, and `keys` to override the chord shown (otherwise it's collected from the app entries). Set `"cheatsheet": false` to leave a binding off the sheet.
 - **Preview the result**: `make run` prints the rendered `Personal.xml`, `keybindings.json`, and `hotkeys.json` content for every binding. `make test` checks the config still loads and renders correctly.
 
 Applying the rendered output to your actual editor config is still a manual copy for now — see [Status](#status).
@@ -107,4 +109,5 @@ By default this renders the bundled omakase proposal. To use your own `keymap.js
 make install   # uv sync
 make test      # uv run pytest
 make run       # uv run chordinate
+make cheatsheet  # write cheatsheet.html, a printable (A4 landscape) sheet of every chord
 ```

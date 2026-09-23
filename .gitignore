@@ -219,3 +219,6 @@ __marimo__/
 
 # macOS
 .DS_Store
+
+# Generated cheat sheet (make cheatsheet)
+/cheatsheet.html
