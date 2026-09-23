@@ -137,4 +137,5 @@ make test      # uv run pytest
 make run       # uv run chordinate — print the renders
 make apply     # uv run chordinate --apply — write them into your live config
 make cheatsheet  # write cheatsheet.html, a printable (A4 landscape) sheet of every chord
+make cheatsheet-pdf  # also print it to cheatsheet.pdf (needs Chromium or Google Chrome; override with CHROME=...)
 ```

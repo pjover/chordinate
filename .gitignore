@@ -223,5 +223,6 @@ __marimo__/
 # Private files
 private/
 
-# Generated cheat sheet (make cheatsheet)
+# Generated cheat sheet (make cheatsheet / make cheatsheet-pdf)
 /cheatsheet.html
+/cheatsheet.pdf
