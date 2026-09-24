@@ -2,8 +2,6 @@
 
 A single source of truth for keymaps across JetBrains, VS Code, and Obsidian — every action bound to one chord (a keystroke combo, like Ctrl+Shift+L), consistent on macOS and Linux, and reconciled against your OS shortcuts and file manager so nothing collides.
 
-This is an *omakase* keymap — [chef's choice](https://learn.omacom.io/3/omacom/76/omakase-computing), the same philosophy behind [Omarchy](https://omarchy.org/): a considered default proposed for you, not a mandate.
-
 As I'm using Mac (for work) and Omarchy (for fun) I wanted to keep compatibility with Omarchy's own default keybindings, so nothing collides out of the box. Use the proposal as-is, or tweak any chord to your own taste — see [Tweaking the keymap](#tweaking-the-keymap) below.
 
 ## Status
@@ -19,14 +17,13 @@ Windows isn't supported.
 
 ## Keymap summary
 
-This is the proposed keymap — the omakase default, not a fixed rule. Every row is one chord, kept consistent across whichever apps support it. Where an app can't share the headline chord, its own key is shown instead of a checkmark. Full detail and the reasoning behind each choice lives in `src/chordinate/data/keymap.json`. Want something different? See [Tweaking the keymap](#tweaking-the-keymap).
+This is the proposed keymap — a considered default, not a fixed rule. Every row is one chord, kept consistent across whichever apps support it. Where an app can't share the headline chord, its own key is shown instead of a checkmark. Full detail and the reasoning behind each choice lives in `src/chordinate/data/keymap.json`. Want something different? See [Tweaking the keymap](#tweaking-the-keymap).
 
 ### Editing
 
 | Action                              | Chord                           |     JetBrains      |  VS Code   | Obsidian | Notes                                                 |
 | ----------------------------------- | -------------------------------- | :----------------: | :--------: | :------: | ----------------------------------------------------- |
 | Move / Swap Line Up / Down          | Ctrl+Shift+↑ / ↓                |         ✓          |     ✓      |    ✓     |                                                       |
-| Move Statement Up / Down            | Ctrl+Alt+Shift+↑ / ↓            |         ✓          |  unbound   |    —     | No VS Code equivalent; unbound there to stop its Copy Line Up / Down |
 | Clone Caret Above / Below           | Shift+Alt+↑ / ↓                 |         ✓          |     ✓      |    —     |                                                       |
 | Delete Line                         | Ctrl+Y                          |         ✓          |     ✓      |    ✓     | Displaces VS Code's Redo (stays on Ctrl+Shift+Z)      |
 | Duplicate Line or Selection         | Ctrl+D                          |     ✓ (native)     |     ✓      |    —     | Displaces VS Code's Add Selection to Next Find Match (on Ctrl+Shift+L); no Obsidian command |
@@ -106,7 +103,7 @@ uvx --from git+https://github.com/pjover/chordinate chordinate
 uvx --from git+https://github.com/pjover/chordinate chordinate --apply
 ```
 
-By default this renders the bundled omakase proposal. To use your own `keymap.json` instead, see [Tweaking the keymap](#tweaking-the-keymap) — put it at `~/.config/chordinate/keymap.json`, in the current directory, or wherever `$CHORDINATE_HOME` points.
+By default this renders the bundled proposal. To use your own `keymap.json` instead, see [Tweaking the keymap](#tweaking-the-keymap) — put it at `~/.config/chordinate/keymap.json`, in the current directory, or wherever `$CHORDINATE_HOME` points.
 
 ### What `--apply` writes where
 

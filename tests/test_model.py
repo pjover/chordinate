@@ -12,7 +12,7 @@ def _write_config(directory: Path, marker_id: str) -> None:
 
 def test_load_bindings_returns_every_binding():
     bindings = load_bindings()
-    assert len(bindings) == 29
+    assert len(bindings) == 28
 
 
 def test_delete_line_binding_has_all_three_app_targets():
@@ -59,7 +59,7 @@ def test_falls_back_to_bundled_config_when_no_override_exists(tmp_path, monkeypa
 
     bindings = load_bindings()
 
-    assert len(bindings) == 29
+    assert len(bindings) == 28
 
 
 def test_chordinate_home_env_var_takes_priority_over_cwd_and_user_config(tmp_path, monkeypatch):

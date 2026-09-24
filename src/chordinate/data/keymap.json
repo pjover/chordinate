@@ -32,24 +32,6 @@
       "note": "Same physical key as the JetBrains/VS Code Move Line Up/Down above — an existing 3-way alignment."
     },
     {
-      "id": "move-statement-up-down",
-      "action": "Move Statement Up / Down",
-      "cheatsheet": {"group": "Editing"},
-      "jetbrains": {
-        "entries": [
-          {"action_id": "MoveStatementUp", "keys": ["ctrl+alt+shift+up"]},
-          {"action_id": "MoveStatementDown", "keys": ["ctrl+alt+shift+down"]}
-        ]
-      },
-      "vscode": {
-        "entries": [
-          {"command": "-editor.action.copyLinesUpAction", "key": "ctrl+alt+shift+up", "when": "editorTextFocus && !editorReadonly"},
-          {"command": "-editor.action.copyLinesDownAction", "key": "ctrl+alt+shift+down", "when": "editorTextFocus && !editorReadonly"}
-        ]
-      },
-      "note": "No VS Code equivalent command exists, so the chord is unbound there instead: on Linux ctrl+alt+shift+up/down is VS Code's own Copy Line Up/Down, which would silently duplicate lines under a chord that means 'move statement' everywhere else. Duplicating a line lives on ctrl+d (see duplicate-line)."
-    },
-    {
       "id": "clone-caret-above-below",
       "action": "Clone Caret Above / Below",
       "cheatsheet": {"group": "Editing"},
