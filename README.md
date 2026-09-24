@@ -16,7 +16,6 @@ Windows isn't supported.
 
 - [uv](https://docs.astral.sh/uv/)
 - VS Code: [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) — required for the surround-with-backticks and surround-with-code-block bindings, which have no built-in VS Code equivalent.
-- VS Code: [Markdown PDF](https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf) — required for the export-to-PDF binding.
 
 ## Keymap summary
 
@@ -27,9 +26,10 @@ This is the proposed keymap — the omakase default, not a fixed rule. Every row
 | Action                              | Chord                           |     JetBrains      |  VS Code   | Obsidian | Notes                                                 |
 | ----------------------------------- | -------------------------------- | :----------------: | :--------: | :------: | ----------------------------------------------------- |
 | Move / Swap Line Up / Down          | Ctrl+Shift+↑ / ↓                |         ✓          |     ✓      |    ✓     |                                                       |
-| Move Statement Up / Down            | Ctrl+Alt+Shift+↑ / ↓            |         ✓          |     —      |    —     | No VS Code equivalent                                 |
+| Move Statement Up / Down            | Ctrl+Alt+Shift+↑ / ↓            |         ✓          |  unbound   |    —     | No VS Code equivalent; unbound there to stop its Copy Line Up / Down |
 | Clone Caret Above / Below           | Shift+Alt+↑ / ↓                 |         ✓          |     ✓      |    —     |                                                       |
 | Delete Line                         | Ctrl+Y                          |         ✓          |     ✓      |    ✓     | Displaces VS Code's Redo (stays on Ctrl+Shift+Z)      |
+| Duplicate Line or Selection         | Ctrl+D                          |     ✓ (native)     |     ✓      |    —     | Displaces VS Code's Add Selection to Next Find Match (on Ctrl+Shift+L); no Obsidian command |
 | Join Lines                          | Ctrl+Shift+J                    |         ✓          |     ✓      |    —     |                                                       |
 | Insert Line Above                   | Ctrl+Shift+Enter                |         ✓          |     ✓      |    —     |                                                       |
 | Toggle Word Wrap                    | Alt+Z                           |         ✓          |     ✓      |    —     |                                                       |
@@ -45,7 +45,6 @@ This is the proposed keymap — the omakase default, not a fixed rule. Every row
 | ----------------------------------- | ------------ | :--------------------: | :-----: | :-----------: | ------------------------------------------------------------- |
 | Surround with `` `code` `` (inline) | Ctrl+Shift+K | ✓ (+Ctrl+Shift+C kept) |    ✓    | Ctrl+Shift+=  | Obsidian keeps its own pre-existing key                       |
 | Surround with code block (fenced)   | Ctrl+Alt+K   |           —            |    ✓    | Ctrl+Shift+\\ | No JetBrains action exists; VS Code needs Markdown All in One |
-| Export to PDF                       | Shift+Alt+P  |           —            |    ✓    |       ✓       | VS Code needs Markdown PDF                                    |
 
 ### App / window
 
@@ -53,7 +52,7 @@ This is the proposed keymap — the omakase default, not a fixed rule. Every row
 | ----------------------------------------------- | ---------------------- | :------------------: | :----------: | :----------: | ---------------------------------------------------------------------------------- |
 | New / Activate Terminal                         | Ctrl+T                 |          ✓           |      ✓       |      —       | Overlaps Nautilus's Ctrl+T = New Tab, deliberately                                 |
 | Switch Tool Window (Project/Find/Run/Debug/...) | Ctrl+Alt+1..0          |          ✓           |      —       |      —       | VS Code/Obsidian keep their own native editor-group/tab switching                  |
-| Toggle Pin Editor Tab                           | Ctrl+Alt+P             |          ✓           |      ✓       |      ✓       | Displaces JetBrains' Introduce Parameter (still in Refactor This)                  |
+| Toggle Pin Editor Tab                           | Shift+Alt+P            |          ✓           |      ✓       |      ✓       | Ctrl+Alt+P is taken system-wide (toggle preedit), so this sits on Shift+Alt+P      |
 | Zoom In / Out (UI scale)                        | Ctrl+Plus / Ctrl+Minus |          ✓           |  ✓ (native)  |      ✓       | JetBrains' code-folding family relocated to Ctrl+Alt+Shift+Plus/Minus to free this |
 | Copy / Cut / Paste                              | Ctrl+C / X / V         | native (no override) | ✓ (Mac only) | ✓ (Mac only) | Adds working Ctrl+C/X/V on macOS alongside Cmd+C/X/V                               |
 

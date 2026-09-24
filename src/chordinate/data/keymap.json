@@ -41,7 +41,13 @@
           {"action_id": "MoveStatementDown", "keys": ["ctrl+alt+shift+down"]}
         ]
       },
-      "note": "No VS Code equivalent command exists."
+      "vscode": {
+        "entries": [
+          {"command": "-editor.action.copyLinesUpAction", "key": "ctrl+alt+shift+up", "when": "editorTextFocus && !editorReadonly"},
+          {"command": "-editor.action.copyLinesDownAction", "key": "ctrl+alt+shift+down", "when": "editorTextFocus && !editorReadonly"}
+        ]
+      },
+      "note": "No VS Code equivalent command exists, so the chord is unbound there instead: on Linux ctrl+alt+shift+up/down is VS Code's own Copy Line Up/Down, which would silently duplicate lines under a chord that means 'move statement' everywhere else. Duplicating a line lives on ctrl+d (see duplicate-line)."
     },
     {
       "id": "clone-caret-above-below",
@@ -75,6 +81,19 @@
       },
       "obsidian": {"entries": [{"command_id": "editor:delete-paragraph", "key": "ctrl+y"}]},
       "note": "Strongest cross-app alignment in the project — matches Obsidian's own pre-existing binding. ctrl+y in VS Code deliberately displaces Redo (Redo stays on ctrl+shift+z)."
+    },
+    {
+      "id": "duplicate-line",
+      "action": "Duplicate Line or Selection",
+      "cheatsheet": {"group": "Editing"},
+      "jetbrains": {"entries": [{"action_id": "EditorDuplicate", "keys": ["ctrl+d"]}]},
+      "vscode": {
+        "entries": [
+          {"command": "editor.action.duplicateSelection", "key": "ctrl+d", "when": "editorTextFocus && !editorReadonly"},
+          {"command": "-editor.action.addSelectionToNextFindMatch", "key": "ctrl+d"}
+        ]
+      },
+      "note": "ctrl+d is already JetBrains' own default for this. VS Code has no default chord for Duplicate Selection (which duplicates the whole line when nothing is selected, matching JetBrains), so it takes ctrl+d here, displacing Add Selection to Next Find Match — that one stays available on ctrl+shift+l (Select All Occurrences). Obsidian has no duplicate-line command at all."
     },
     {
       "id": "join-lines",
@@ -197,15 +216,15 @@
       "id": "toggle-pin",
       "action": "Toggle Pin Editor Tab",
       "cheatsheet": {"group": "App / window"},
-      "jetbrains": {"entries": [{"action_id": "PinActiveTab", "keys": ["ctrl+alt+p"]}]},
+      "jetbrains": {"entries": [{"action_id": "PinActiveTab", "keys": ["shift+alt+p"]}]},
       "vscode": {
         "entries": [
-          {"command": "workbench.action.pinEditor", "key": "ctrl+alt+p", "when": "!activeEditorIsPinned"},
-          {"command": "workbench.action.unpinEditor", "key": "ctrl+alt+p", "when": "activeEditorIsPinned"}
+          {"command": "workbench.action.pinEditor", "key": "shift+alt+p", "when": "!activeEditorIsPinned"},
+          {"command": "workbench.action.unpinEditor", "key": "shift+alt+p", "when": "activeEditorIsPinned"}
         ]
       },
-      "obsidian": {"entries": [{"command_id": "workspace:toggle-pin", "key": "ctrl+alt+p"}]},
-      "note": "VS Code has no single 'toggle pin' command (a feature request for one is still open upstream) — two conditional bindings simulate it. Displaces JetBrains' default ctrl+alt+p (Introduce Parameter), still reachable via Refactor This (ctrl+alt+shift+t)."
+      "obsidian": {"entries": [{"command_id": "workspace:toggle-pin", "key": "shift+alt+p"}]},
+      "note": "VS Code has no single 'toggle pin' command (a feature request for one is still open upstream) — two conditional bindings simulate it. shift+alt+p rather than ctrl+alt+p: Omarchy binds ctrl+alt+p system-wide (toggle preedit), so it never reaches the editor. shift+alt+p was freed when the PDF-export binding was dropped, and JetBrains' ctrl+alt+p (Introduce Parameter) is left alone as a result."
     },
     {
       "id": "reveal-active-file-obsidian",
@@ -267,14 +286,6 @@
       "action": "Open Daily Note (Obsidian)",
       "cheatsheet": {"group": "Obsidian only", "label": "Open Daily Note"},
       "obsidian": {"entries": [{"command_id": "daily-notes", "key": "ctrl+n"}]}
-    },
-    {
-      "id": "export-pdf",
-      "action": "Export to PDF",
-      "cheatsheet": {"group": "Markdown"},
-      "vscode": {"entries": [{"command": "extension.markdown-pdf.pdf", "key": "shift+alt+p", "when": "editorLangId == markdown"}]},
-      "obsidian": {"entries": [{"command_id": "workspace:export-pdf", "key": "shift+alt+p"}]},
-      "note": "VS Code needs the Markdown PDF extension (yzane.markdown-pdf). No JetBrains binding."
     },
     {
       "id": "zoom-in-out",
