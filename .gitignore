@@ -219,3 +219,13 @@ __marimo__/
 
 # macOS
 .DS_Store
+
+# Private files
+private/
+
+# Generated cheat sheet (make cheatsheet / make cheatsheet-pdf)
+/cheatsheet.html
+/cheatsheet.pdf
+
+# Claude Code worktrees (EnterWorktree creates these; never part of the repo)
+.claude/worktrees/

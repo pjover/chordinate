@@ -12,7 +12,7 @@ def _write_config(directory: Path, marker_id: str) -> None:
 
 def test_load_bindings_returns_every_binding():
     bindings = load_bindings()
-    assert len(bindings) == 29
+    assert len(bindings) == 28
 
 
 def test_delete_line_binding_has_all_three_app_targets():
@@ -24,14 +24,22 @@ def test_delete_line_binding_has_all_three_app_targets():
     assert delete_line.obsidian[0].command_id == "editor:delete-paragraph"
 
 
-def test_reserved_but_unbound_binding_has_no_app_targets():
-    bindings = {b.id: b for b in load_bindings()}
-    select_paragraph = bindings["select-paragraph"]
+def test_reserved_but_unbound_binding_has_no_app_targets(tmp_path, monkeypatch):
+    config = {
+        "bindings": [
+            {"id": "held-key", "action": "Held Key", "reserved_key": "ctrl+alt+u"}
+        ]
+    }
+    (tmp_path / "keymap.json").write_text(json.dumps(config), encoding="utf-8")
+    monkeypatch.delenv("CHORDINATE_HOME", raising=False)
+    monkeypatch.chdir(tmp_path)
 
-    assert select_paragraph.reserved_key == "ctrl+alt+u"
-    assert select_paragraph.jetbrains == []
-    assert select_paragraph.vscode == []
-    assert select_paragraph.obsidian == []
+    held_key = load_bindings()[0]
+
+    assert held_key.reserved_key == "ctrl+alt+u"
+    assert held_key.jetbrains == []
+    assert held_key.vscode == []
+    assert held_key.obsidian == []
 
 
 def test_switch_tool_window_binding_covers_all_ten_slots():
@@ -51,7 +59,7 @@ def test_falls_back_to_bundled_config_when_no_override_exists(tmp_path, monkeypa
 
     bindings = load_bindings()
 
-    assert len(bindings) == 29
+    assert len(bindings) == 28
 
 
 def test_chordinate_home_env_var_takes_priority_over_cwd_and_user_config(tmp_path, monkeypatch):

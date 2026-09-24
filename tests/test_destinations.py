@@ -1,3 +1,6 @@
+import json
+import platform
+
 from chordinate.destinations.jetbrains import JetBrainsDestination
 from chordinate.destinations.obsidian import ObsidianDestination
 from chordinate.destinations.vscode import VSCodeDestination
@@ -71,3 +74,111 @@ def test_all_destinations_render_the_full_real_config_without_error():
     assert "PinActiveTab" in jetbrains_xml
     assert "markdown.extension.editing.toggleCodeSpan" in vscode_json
     assert "workspace:toggle-pin" in obsidian_json
+
+
+def test_jetbrains_target_paths_finds_matching_products(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    jetbrains_dir = tmp_path / ".config" / "JetBrains"
+    (jetbrains_dir / "IdeaIC2026.1").mkdir(parents=True)
+    (jetbrains_dir / "PyCharm2025.2").mkdir(parents=True)
+    (jetbrains_dir / "SomeOtherApp").mkdir(parents=True)
+
+    target_paths = JetBrainsDestination().target_paths()
+
+    assert target_paths == [
+        jetbrains_dir / "IdeaIC2026.1" / "keymaps" / "Personal.xml",
+        jetbrains_dir / "PyCharm2025.2" / "keymaps" / "Personal.xml",
+    ]
+
+
+def test_jetbrains_target_paths_empty_when_no_config_dir(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+
+    assert JetBrainsDestination().target_paths() == []
+
+
+def test_vscode_target_paths_when_installed(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    (tmp_path / ".config" / "Code").mkdir(parents=True)
+
+    assert VSCodeDestination().target_paths() == [
+        tmp_path / ".config" / "Code" / "User" / "keybindings.json"
+    ]
+
+
+def test_vscode_target_paths_empty_when_not_installed(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+
+    assert VSCodeDestination().target_paths() == []
+
+
+def test_obsidian_target_paths_from_registry(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    vault_dir = tmp_path / "notes"
+    vault_dir.mkdir()
+    registry_dir = tmp_path / ".config" / "obsidian"
+    registry_dir.mkdir(parents=True)
+    registry = {"vaults": {"abc123": {"path": str(vault_dir), "ts": 1}}}
+    (registry_dir / "obsidian.json").write_text(json.dumps(registry), encoding="utf-8")
+
+    assert ObsidianDestination().target_paths() == [vault_dir / ".obsidian" / "hotkeys.json"]
+
+
+def test_obsidian_target_paths_skips_stale_vault(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    registry_dir = tmp_path / ".config" / "obsidian"
+    registry_dir.mkdir(parents=True)
+    registry = {"vaults": {"stale": {"path": str(tmp_path / "deleted-vault"), "ts": 1}}}
+    (registry_dir / "obsidian.json").write_text(json.dumps(registry), encoding="utf-8")
+
+    assert ObsidianDestination().target_paths() == []
+
+
+def test_obsidian_target_paths_empty_when_no_registry(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+
+    assert ObsidianDestination().target_paths() == []
+
+
+def test_obsidian_target_paths_empty_when_registry_is_malformed(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    registry_dir = tmp_path / ".config" / "obsidian"
+    registry_dir.mkdir(parents=True)
+    (registry_dir / "obsidian.json").write_text("{not valid json", encoding="utf-8")
+
+    assert ObsidianDestination().target_paths() == []
+
+
+def test_obsidian_target_paths_from_registry_with_two_valid_vaults_and_a_stale_one(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    vault_one = tmp_path / "vault-one"
+    vault_one.mkdir()
+    vault_two = tmp_path / "vault-two"
+    vault_two.mkdir()
+    registry_dir = tmp_path / ".config" / "obsidian"
+    registry_dir.mkdir(parents=True)
+    registry = {
+        "vaults": {
+            "vault-one-id": {"path": str(vault_one), "ts": 1},
+            "vault-two-id": {"path": str(vault_two), "ts": 2},
+            "stale-id": {"path": str(tmp_path / "deleted-vault"), "ts": 3},
+        }
+    }
+    (registry_dir / "obsidian.json").write_text(json.dumps(registry), encoding="utf-8")
+
+    target_paths = ObsidianDestination().target_paths()
+
+    assert set(target_paths) == {
+        vault_one / ".obsidian" / "hotkeys.json",
+        vault_two / ".obsidian" / "hotkeys.json",
+    }
+    assert len(target_paths) == 2

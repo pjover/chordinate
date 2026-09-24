@@ -1,9 +1,25 @@
 from __future__ import annotations
 
+from pathlib import Path
 from xml.sax.saxutils import quoteattr
 
 from chordinate.key_format import to_jetbrains
 from chordinate.model import Binding
+from chordinate.paths import jetbrains_config_dir
+
+_PRODUCT_PREFIXES = (
+    "PyCharm",
+    "IntelliJIdea",
+    "IdeaIC",
+    "Rider",
+    "WebStorm",
+    "GoLand",
+    "CLion",
+    "DataGrip",
+    "RubyMine",
+    "PhpStorm",
+    "RustRover",
+)
 
 
 class JetBrainsDestination:
@@ -25,3 +41,14 @@ class JetBrainsDestination:
             lines.append("  </action>")
         lines.append("</keymap>")
         return "\n".join(lines) + "\n"
+
+    def target_paths(self) -> list[Path]:
+        base = jetbrains_config_dir()
+        if not base.is_dir():
+            return []
+        products = sorted(
+            entry
+            for entry in base.iterdir()
+            if entry.is_dir() and entry.name.startswith(_PRODUCT_PREFIXES)
+        )
+        return [product / "keymaps" / "Personal.xml" for product in products]
