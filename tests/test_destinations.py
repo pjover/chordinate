@@ -53,7 +53,7 @@ def test_vscode_destination_omits_when_if_absent():
 def test_obsidian_destination_groups_entries_by_command_id():
     binding = _binding(
         obsidian=[
-            ObsidianEntry(command_id="editor:copy", key="ctrl+c", literal_ctrl=True),
+            ObsidianEntry(command_id="editor:copy", key="ctrl+c"),
         ]
     )
 
@@ -62,6 +62,14 @@ def test_obsidian_destination_groups_entries_by_command_id():
     assert '"editor:copy"' in hotkeys
     assert '"Ctrl"' in hotkeys
     assert '"C"' in hotkeys
+
+
+def test_obsidian_entry_without_key_unbinds_the_command():
+    binding = _binding(obsidian=[ObsidianEntry(command_id="file-explorer:new-file")])
+
+    hotkeys = json.loads(ObsidianDestination().render([binding]))
+
+    assert hotkeys == {"file-explorer:new-file": []}
 
 
 def test_all_destinations_render_the_full_real_config_without_error():

@@ -60,9 +60,9 @@ This is the proposed keymap — a considered default, not a fixed rule. Every ro
 | Reveal Active File in Explorer | Ctrl+Shift+Y                |                                              |
 | Open / Show in Default App     | Ctrl+Shift+O / Ctrl+Shift+S |                                              |
 | Search & Replace               | Ctrl+R                      |                                              |
-| Edit Task (Tasks plugin)       | Ctrl+Shift+T                | No-op without the plugin installed           |
+| Edit Task (Tasks plugin)       | Ctrl+Shift+T                | No-op without the plugin; unbinds Undo Close Tab |
 | Previous / Next Tab            | Ctrl+Shift+Tab / Ctrl+Tab   |                                              |
-| Open Daily Note                | Ctrl+N                      |                                              |
+| Open Daily Note                | Ctrl+N                      | Unbinds New Note                             |
 
 ## Tweaking the keymap
 
@@ -88,7 +88,7 @@ The first one found wins. If none exist, the bundled default (`src/chordinate/da
 - **Change a chord**: edit the `key` (or `keys`, for JetBrains) value(s) on whichever app block(s) you want to affect. Keys use one canonical notation (`ctrl+shift+l`, lowercase, `+`-joined) — `src/chordinate/key_format.py` translates it into each app's real syntax, so you never write JetBrains/VS Code/Obsidian syntax by hand.
 - **Add a new binding**: append a new object to the `bindings` array with an `id`, a human-readable `action`, and whichever of `jetbrains`/`vscode`/`obsidian` blocks apply — omit any app that shouldn't get the binding.
 - **JetBrains specifically**: `keys` is a list, not a single value, because declaring an `<action>` in the keymap replaces its entire inherited shortcut set. If you're adding a key without wanting to lose a default JetBrains already has for that action, list both keys together (see `rename` in the file for an example).
-- **Removing an app's own default**: JetBrains — give the action an empty `keys` list, which renders an `<action>` with no shortcut at all; that's how a child keymap drops a shortcut inherited from `$default`. VS Code — add an entry on the same key whose `command` is the displaced one prefixed with `-` (see `delete-line`, which frees Ctrl+Y from Redo).
+- **Removing an app's own default**: JetBrains — give the action an empty `keys` list, which renders an `<action>` with no shortcut at all; that's how a child keymap drops a shortcut inherited from `$default`. VS Code — add an entry on the same key whose `command` is the displaced one prefixed with `-` (see `delete-line`, which frees Ctrl+Y from Redo). Obsidian — add an entry with just a `command_id` and no `key`, which renders an empty hotkey list (see `daily-notes-obsidian`, which frees Ctrl+N from New Note).
 - **Cheat sheet**: the optional `cheatsheet` block controls how a binding appears on the printable cheat sheet — `group` (`Editing`, `Markdown`, `App / window`, `Obsidian only`, or any new name), a shorter `label`, an optional `note`, and `keys` to override the chord shown (otherwise it's collected from the app entries). Set `"cheatsheet": false` to leave a binding off the sheet.
 - **Preview the result**: `make run` prints the rendered `Personal.xml`, `keybindings.json`, and `hotkeys.json` content for every binding. `make test` checks the config still loads and renders correctly.
 - **Apply the result**: `make apply` writes the renders into your real editor config — see [Usage](#usage).

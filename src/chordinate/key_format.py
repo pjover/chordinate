@@ -79,11 +79,11 @@ def to_vscode(key: str) -> str:
     return "+".join([*modifiers, base_name])
 
 
-def to_obsidian(key: str, literal_ctrl: bool = False) -> tuple[list[str], str]:
+def to_obsidian(key: str) -> tuple[list[str], str]:
+    # Literal "Ctrl", never "Mod": Mod is Cmd on macOS, while JetBrains and VS Code
+    # bind the physical Ctrl key there. On Linux the two are the same key.
     modifiers, base = _split(key)
-    modifier_names = [
-        ("Ctrl" if literal_ctrl else "Mod") if m == "ctrl" else m.capitalize() for m in modifiers
-    ]
+    modifier_names = [m.capitalize() for m in modifiers]
     base_name = _OBSIDIAN_KEY_NAMES.get(base, base.upper() if len(base) == 1 else base.capitalize())
     return modifier_names, base_name
 
