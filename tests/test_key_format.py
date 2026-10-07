@@ -32,21 +32,15 @@ def test_to_vscode_translates_plus_and_minus():
     assert to_vscode("ctrl+alt+shift+minus") == "ctrl+alt+shift+-"
 
 
-def test_to_obsidian_maps_ctrl_to_mod_by_default():
+def test_to_obsidian_maps_ctrl_to_literal_ctrl_not_mod():
     modifiers, key = to_obsidian("ctrl+shift+up")
-    assert modifiers == ["Mod", "Shift"]
+    assert modifiers == ["Ctrl", "Shift"]
     assert key == "ArrowUp"
 
 
 def test_to_obsidian_page_keys_keep_camel_case():
-    assert to_obsidian("ctrl+pageup") == (["Mod"], "PageUp")
-    assert to_obsidian("ctrl+pagedown") == (["Mod"], "PageDown")
-
-
-def test_to_obsidian_literal_ctrl_stays_ctrl():
-    modifiers, key = to_obsidian("ctrl+c", literal_ctrl=True)
-    assert modifiers == ["Ctrl"]
-    assert key == "C"
+    assert to_obsidian("ctrl+pageup") == (["Ctrl"], "PageUp")
+    assert to_obsidian("ctrl+pagedown") == (["Ctrl"], "PageDown")
 
 
 def test_to_display_uses_printable_names():

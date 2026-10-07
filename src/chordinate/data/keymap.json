@@ -241,7 +241,7 @@
           {"command_id": "workspace:undo-close-pane"}
         ]
       },
-      "note": "Harmless no-op in a vault without the Tasks plugin installed. Unbinds Obsidian's default Undo Close Tab (Mod+Shift+T), which would otherwise collide."
+      "note": "Harmless no-op in a vault without the Tasks plugin installed. Unbinds Obsidian's default Undo Close Tab (Mod+Shift+T), which is Ctrl+Shift+T on Linux and would otherwise collide."
     },
     {
       "id": "prev-next-tab-obsidian",
@@ -278,7 +278,7 @@
           {"command_id": "file-explorer:new-file"}
         ]
       },
-      "note": "Unbinds Obsidian's default New Note (Mod+N), which would otherwise collide."
+      "note": "Unbinds Obsidian's default New Note (Mod+N), which is Ctrl+N on Linux and would otherwise collide."
     },
     {
       "id": "zoom-in-out",
@@ -315,12 +315,12 @@
       },
       "obsidian": {
         "entries": [
-          {"command_id": "editor:copy", "key": "ctrl+c", "literal_ctrl": true},
-          {"command_id": "editor:cut", "key": "ctrl+x", "literal_ctrl": true},
-          {"command_id": "editor:paste", "key": "ctrl+v", "literal_ctrl": true}
+          {"command_id": "editor:copy", "key": "ctrl+c"},
+          {"command_id": "editor:cut", "key": "ctrl+x"},
+          {"command_id": "editor:paste", "key": "ctrl+v"}
         ]
       },
-      "note": "Adds ctrl+c/x/v as working shortcuts on macOS alongside the native Cmd+C/X/V, not replacing them (Obsidian entries use the literal Ctrl modifier rather than Mod for exactly this reason). JetBrains needs NO entry at all — $Copy/$Cut/$Paste already inherit control C/X/V from $default with classic secondaries (control INSERT, shift DELETE, shift INSERT); declaring an override here would replace and lose those secondaries for no benefit. VS Code's own ctrl+c/x/v for these commands are gated to non-Mac platforms by VS Code itself, so this only adds real capability on Mac (harmless no-op on Linux, which already has it natively). OPEN QUESTION carried over: Cmd+C/V may not actually work in the JetBrains editor at all under this project's $default-based keymap (a pre-existing characteristic unrelated to this binding) — unverified without a Mac, worth checking for real."
+      "note": "Adds ctrl+c/x/v as working shortcuts on macOS alongside the native Cmd+C/X/V, not replacing them. JetBrains needs NO entry at all — $Copy/$Cut/$Paste already inherit control C/X/V from $default with classic secondaries (control INSERT, shift DELETE, shift INSERT); declaring an override here would replace and lose those secondaries for no benefit. VS Code's own ctrl+c/x/v for these commands are gated to non-Mac platforms by VS Code itself, so this only adds real capability on Mac (harmless no-op on Linux, which already has it natively). OPEN QUESTION carried over: Cmd+C/V may not actually work in the JetBrains editor at all under this project's $default-based keymap (a pre-existing characteristic unrelated to this binding) — unverified without a Mac, worth checking for real."
     }
   ]
 }

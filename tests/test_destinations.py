@@ -53,7 +53,7 @@ def test_vscode_destination_omits_when_if_absent():
 def test_obsidian_destination_groups_entries_by_command_id():
     binding = _binding(
         obsidian=[
-            ObsidianEntry(command_id="editor:copy", key="ctrl+c", literal_ctrl=True),
+            ObsidianEntry(command_id="editor:copy", key="ctrl+c"),
         ]
     )
 
