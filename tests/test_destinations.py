@@ -64,6 +64,14 @@ def test_obsidian_destination_groups_entries_by_command_id():
     assert '"C"' in hotkeys
 
 
+def test_obsidian_entry_without_key_unbinds_the_command():
+    binding = _binding(obsidian=[ObsidianEntry(command_id="file-explorer:new-file")])
+
+    hotkeys = json.loads(ObsidianDestination().render([binding]))
+
+    assert hotkeys == {"file-explorer:new-file": []}
+
+
 def test_all_destinations_render_the_full_real_config_without_error():
     bindings = load_bindings()
 

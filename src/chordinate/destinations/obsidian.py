@@ -15,8 +15,10 @@ class ObsidianDestination:
         hotkeys: dict[str, list[dict]] = {}
         for binding in bindings:
             for entry in binding.obsidian:
-                modifiers, key = to_obsidian(entry.key, entry.literal_ctrl)
                 hotkeys.setdefault(entry.command_id, [])
+                if entry.key is None:
+                    continue  # no key: unbind the command's default hotkey
+                modifiers, key = to_obsidian(entry.key, entry.literal_ctrl)
                 hotkeys[entry.command_id].append({"modifiers": modifiers, "key": key})
         return json.dumps(hotkeys, indent=2) + "\n"
 

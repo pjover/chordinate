@@ -34,6 +34,7 @@ Pipeline: `model.load_bindings()` → each `Destination.render(bindings)` → st
 
 - **JetBrains `keys` is a list** because an `<action>` in a child keymap replaces the whole inherited shortcut set; keep existing defaults by listing them too. An empty list removes the inherited shortcut. Multiple bindings with the same `action_id` are merged in render.
 - **VS Code removals**: an entry whose `command` starts with `-` unbinds a default on that key.
+- **Obsidian removals**: an entry with a `command_id` and no `key` renders `[]`, unbinding that command's default hotkey.
 - **Obsidian `ctrl` renders as `Mod`** (Cmd on macOS) unless `literal_ctrl: true` (used e.g. for Ctrl+C/X/V on Mac).
 - `reserved_key` marks a chord held for future use with no app entries.
 - `"cheatsheet": false` hides a binding from the sheet.

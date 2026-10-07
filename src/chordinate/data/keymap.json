@@ -235,8 +235,13 @@
       "id": "edit-task-obsidian",
       "action": "Edit Task (Tasks plugin, Obsidian)",
       "cheatsheet": {"group": "Obsidian only", "label": "Edit Task (Tasks plugin)"},
-      "obsidian": {"entries": [{"command_id": "obsidian-tasks-plugin:edit-task", "key": "ctrl+shift+t"}]},
-      "note": "Harmless no-op in a vault without the Tasks plugin installed."
+      "obsidian": {
+        "entries": [
+          {"command_id": "obsidian-tasks-plugin:edit-task", "key": "ctrl+shift+t"},
+          {"command_id": "workspace:undo-close-pane"}
+        ]
+      },
+      "note": "Harmless no-op in a vault without the Tasks plugin installed. Unbinds Obsidian's default Undo Close Tab (Mod+Shift+T), which would otherwise collide."
     },
     {
       "id": "prev-next-tab-obsidian",
@@ -267,7 +272,13 @@
       "id": "daily-notes-obsidian",
       "action": "Open Daily Note (Obsidian)",
       "cheatsheet": {"group": "Obsidian only", "label": "Open Daily Note"},
-      "obsidian": {"entries": [{"command_id": "daily-notes", "key": "ctrl+n"}]}
+      "obsidian": {
+        "entries": [
+          {"command_id": "daily-notes", "key": "ctrl+n"},
+          {"command_id": "file-explorer:new-file"}
+        ]
+      },
+      "note": "Unbinds Obsidian's default New Note (Mod+N), which would otherwise collide."
     },
     {
       "id": "zoom-in-out",

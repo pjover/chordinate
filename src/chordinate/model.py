@@ -23,7 +23,7 @@ class VSCodeEntry:
 @dataclass(frozen=True)
 class ObsidianEntry:
     command_id: str
-    key: str
+    key: str | None = None
     literal_ctrl: bool = False
 
 
@@ -62,7 +62,7 @@ def _load_obsidian(raw: dict) -> list[ObsidianEntry]:
     entries = raw.get("obsidian", {}).get("entries", [])
     return [
         ObsidianEntry(
-            command_id=e["command_id"], key=e["key"], literal_ctrl=e.get("literal_ctrl", False)
+            command_id=e["command_id"], key=e.get("key"), literal_ctrl=e.get("literal_ctrl", False)
         )
         for e in entries
     ]
