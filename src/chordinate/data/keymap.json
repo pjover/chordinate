@@ -96,48 +96,61 @@
       "note": "Plain ctrl+/ needs no VS Code entry — already the native default. ctrl+7 and numpad-divide are accommodations for a Spanish keyboard layout."
     },
     {
-      "id": "organize-imports",
-      "action": "Organize Imports",
+      "id": "search-in-file",
+      "action": "Search in File",
+      "cheatsheet": {"group": "Editing"},
+      "vscode": {"entries": [{"command": "actions.find", "key": "ctrl+f", "when": "editorFocus || editorIsOpen"}]},
+      "obsidian": {"entries": [{"command_id": "editor:open-search", "key": "ctrl+f"}]},
+      "note": "Already native on Linux in both apps. On macOS VS Code gains Ctrl+F alongside Cmd+F, while Obsidian's custom hotkey replaces its Cmd+F default."
+    },
+    {
+      "id": "replace-in-file",
+      "action": "Replace in File",
       "cheatsheet": {"group": "Editing"},
       "vscode": {
         "entries": [
-          {"command": "editor.action.organizeImports", "key": "ctrl+alt+o", "when": "editorTextFocus && !editorReadonly"},
-          {"command": "-editor.action.organizeImports", "key": "shift+alt+o", "when": "editorTextFocus && !editorReadonly"}
-        ]
-      }
-    },
-    {
-      "id": "new-terminal",
-      "action": "New Terminal",
-      "cheatsheet": {"group": "App / window"},
-      "vscode": {
-        "entries": [
-          {"command": "workbench.action.terminal.new", "key": "ctrl+t"},
-          {"command": "-workbench.action.showAllSymbols", "key": "ctrl+t"}
+          {"command": "editor.action.startFindReplaceAction", "key": "ctrl+r", "when": "editorFocus || editorIsOpen"},
+          {"command": "-workbench.action.openRecent", "key": "ctrl+r"}
         ]
       },
-      "note": "Overlaps Nautilus's own ctrl+t = New Tab — accepted deliberately, matches the same convention browsers use."
+      "obsidian": {"entries": [{"command_id": "editor:open-search-replace", "key": "ctrl+r"}]},
+      "note": "ctrl+r displaces VS Code's Open Recent (still in the File menu and the command palette)."
     },
     {
-      "id": "select-paragraph",
-      "action": "Select Paragraph",
+      "id": "search-in-all-files",
+      "action": "Search in All Files",
       "cheatsheet": {"group": "Editing"},
-      "reserved_key": "ctrl+alt+u",
-      "note": "Confirmed free in VS Code's own default keymap, but no native action exists to select a whole paragraph. Not implemented — nothing to bind yet. Keeping the key reserved here so nothing else claims ctrl+alt+u later."
+      "vscode": {"entries": [{"command": "workbench.action.findInFiles", "key": "ctrl+shift+f"}]},
+      "obsidian": {"entries": [{"command_id": "global-search:open", "key": "ctrl+shift+f"}]},
+      "note": "Already native on Linux in both apps. On macOS VS Code gains Ctrl+Shift+F alongside Cmd+Shift+F, while Obsidian's custom hotkey replaces its Cmd+Shift+F default."
+    },
+    {
+      "id": "replace-in-all-files",
+      "action": "Replace in All Files",
+      "cheatsheet": {"group": "Editing"},
+      "vscode": {
+        "entries": [
+          {"command": "workbench.action.replaceInFiles", "key": "ctrl+shift+r"},
+          {"command": "-editor.action.refactor", "key": "ctrl+shift+r"}
+        ]
+      },
+      "note": "ctrl+shift+r displaces VS Code's Refactor… menu (still reachable through Ctrl+. and the context menu). Obsidian has no replace-across-vault command."
     },
     {
       "id": "surround-with-backticks",
       "action": "Surround with `` (inline code)",
-      "cheatsheet": {"group": "Markdown", "label": "Surround with `code` (inline)", "keys": ["ctrl+shift+k"]},
-      "vscode": {"entries": [{"command": "markdown.extension.editing.toggleCodeSpan", "key": "ctrl+shift+k"}]},
-      "note": "Requires the Markdown All in One VS Code extension (yzhang.markdown-all-in-one) — no built-in alternative exists. ctrl+shift+k displaces VS Code's own Delete Line default, which is harmless since Delete Line already lives on ctrl+y in this project. See toggle-inline-code-obsidian for the equivalent, pre-existing Obsidian binding (kept on its own separate key, not unified)."
+      "cheatsheet": {"group": "Markdown", "label": "Surround with `code` (inline)"},
+      "vscode": {"entries": [{"command": "markdown.extension.editing.toggleCodeSpan", "key": "ctrl+alt+shift+g"}]},
+      "obsidian": {"entries": [{"command_id": "editor:toggle-code", "key": "ctrl+alt+shift+g"}]},
+      "note": "Requires the Markdown All in One VS Code extension (yzhang.markdown-all-in-one) — no built-in alternative exists."
     },
     {
       "id": "surround-with-code-block",
       "action": "Surround with code block (fenced)",
       "cheatsheet": {"group": "Markdown"},
-      "vscode": {"entries": [{"command": "markdown.extension.editing.toggleCodeBlock", "key": "ctrl+alt+k"}]},
-      "note": "Requires the same Markdown All in One VS Code extension as surround-with-backticks. See insert-codeblock-obsidian for the equivalent, pre-existing Obsidian binding (kept on its own separate key, not unified)."
+      "vscode": {"entries": [{"command": "markdown.extension.editing.toggleCodeBlock", "key": "ctrl+alt+shift+b"}]},
+      "obsidian": {"entries": [{"command_id": "editor:insert-codeblock", "key": "ctrl+alt+shift+b"}]},
+      "note": "Requires the same Markdown All in One VS Code extension as surround-with-backticks."
     },
     {
       "id": "toggle-pin",
@@ -145,47 +158,33 @@
       "cheatsheet": {"group": "App / window"},
       "vscode": {
         "entries": [
-          {"command": "workbench.action.pinEditor", "key": "shift+alt+p", "when": "!activeEditorIsPinned"},
-          {"command": "workbench.action.unpinEditor", "key": "shift+alt+p", "when": "activeEditorIsPinned"}
+          {"command": "workbench.action.pinEditor", "key": "ctrl+alt+shift+t", "when": "!activeEditorIsPinned"},
+          {"command": "workbench.action.unpinEditor", "key": "ctrl+alt+shift+t", "when": "activeEditorIsPinned"}
         ]
       },
-      "obsidian": {"entries": [{"command_id": "workspace:toggle-pin", "key": "shift+alt+p"}]},
-      "note": "VS Code has no single 'toggle pin' command (a feature request for one is still open upstream) — two conditional bindings simulate it. shift+alt+p rather than ctrl+alt+p: Omarchy binds ctrl+alt+p system-wide (toggle preedit), so it never reaches the editor. shift+alt+p was freed when the PDF-export binding was dropped."
+      "obsidian": {"entries": [{"command_id": "workspace:toggle-pin", "key": "ctrl+alt+shift+t"}]},
+      "note": "VS Code has no single 'toggle pin' command (a feature request for one is still open upstream) — two conditional bindings simulate it."
     },
     {
-      "id": "reveal-active-file-obsidian",
-      "action": "Reveal Active File in Explorer (Obsidian)",
-      "cheatsheet": {"group": "Obsidian only", "label": "Reveal Active File in Explorer"},
-      "obsidian": {"entries": [{"command_id": "file-explorer:reveal-active-file", "key": "ctrl+shift+y"}]}
+      "id": "reveal-active-file",
+      "action": "Reveal Active File in Explorer",
+      "cheatsheet": {"group": "App / window"},
+      "vscode": {"entries": [{"command": "workbench.files.action.showActiveFileInExplorer", "key": "ctrl+alt+shift+e"}]},
+      "obsidian": {"entries": [{"command_id": "file-explorer:reveal-active-file", "key": "ctrl+alt+shift+e"}]}
+    },
+    {
+      "id": "show-in-file-manager",
+      "action": "Show in File Explorer / Finder",
+      "cheatsheet": {"group": "App / window"},
+      "vscode": {"entries": [{"command": "revealFileInOS", "key": "ctrl+alt+shift+f"}]},
+      "obsidian": {"entries": [{"command_id": "open-with-default-app:show", "key": "ctrl+alt+shift+f"}]}
     },
     {
       "id": "open-with-default-app",
-      "action": "Open / Show in Default App (Obsidian)",
-      "cheatsheet": {"group": "Obsidian only", "label": "Open / Show in Default App"},
-      "obsidian": {
-        "entries": [
-          {"command_id": "open-with-default-app:open", "key": "ctrl+shift+o"},
-          {"command_id": "open-with-default-app:show", "key": "ctrl+shift+s"}
-        ]
-      }
-    },
-    {
-      "id": "search-replace-obsidian",
-      "action": "Search & Replace (Obsidian)",
-      "cheatsheet": {"group": "Obsidian only", "label": "Search & Replace"},
-      "obsidian": {"entries": [{"command_id": "editor:open-search-replace", "key": "ctrl+r"}]}
-    },
-    {
-      "id": "edit-task-obsidian",
-      "action": "Edit Task (Tasks plugin, Obsidian)",
-      "cheatsheet": {"group": "Obsidian only", "label": "Edit Task (Tasks plugin)"},
-      "obsidian": {
-        "entries": [
-          {"command_id": "obsidian-tasks-plugin:edit-task", "key": "ctrl+shift+t"},
-          {"command_id": "workspace:undo-close-pane"}
-        ]
-      },
-      "note": "Harmless no-op in a vault without the Tasks plugin installed. Unbinds Obsidian's default Undo Close Tab (Mod+Shift+T), which is Ctrl+Shift+T on Linux and would otherwise collide."
+      "action": "Open in Default App (Obsidian)",
+      "cheatsheet": {"group": "Obsidian only", "label": "Open in Default App"},
+      "obsidian": {"entries": [{"command_id": "open-with-default-app:open", "key": "ctrl+alt+shift+a"}]},
+      "note": "VS Code has no built-in command for this."
     },
     {
       "id": "prev-next-tab-obsidian",
@@ -197,20 +196,6 @@
           {"command_id": "workspace:next-tab", "key": "ctrl+tab"}
         ]
       }
-    },
-    {
-      "id": "insert-codeblock-obsidian",
-      "action": "Insert Code Block (Obsidian)",
-      "cheatsheet": false,
-      "obsidian": {"entries": [{"command_id": "editor:insert-codeblock", "key": "ctrl+shift+\\"}]},
-      "note": "Obsidian's own pre-existing binding for the concept behind surround-with-code-block — kept on its own key, not unified with VS Code's ctrl+alt+k."
-    },
-    {
-      "id": "toggle-inline-code-obsidian",
-      "action": "Toggle Inline Code (Obsidian)",
-      "cheatsheet": false,
-      "obsidian": {"entries": [{"command_id": "editor:toggle-code", "key": "ctrl+shift+="}]},
-      "note": "Obsidian's own pre-existing binding for the concept behind surround-with-backticks — kept on its own key, not unified with the ctrl+shift+k used elsewhere."
     },
     {
       "id": "daily-notes-obsidian",

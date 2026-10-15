@@ -31,35 +31,35 @@ This is the proposed keymap — a considered default, not a fixed rule. Every ro
 | Insert Line Above           | Ctrl+Shift+Enter                |     ✓      |    —     |                                                       |
 | Toggle Word Wrap            | Alt+Z                           |     ✓      |    —     |                                                       |
 | Comment Line                | Ctrl+/ (+Ctrl+7 / Ctrl+Numpad÷) |     ✓      |    —     | Extra keys for Spanish keyboards                      |
-| Organize Imports            | Ctrl+Alt+O                      |     ✓      |    —     |                                                       |
-| Select Paragraph            | Ctrl+Alt+U                      |     —      |    —     | Reserved only — no native action in VS Code yet       |
+| Search in File              | Ctrl+F                          |     ✓      |    ✓     | Native on Linux; on macOS replaces Obsidian's Cmd+F (VS Code keeps it) |
+| Replace in File             | Ctrl+R                          |     ✓      |    ✓     | Displaces VS Code's Open Recent                       |
+| Search in All Files         | Ctrl+Shift+F                    |     ✓      |    ✓     | Native on Linux; on macOS replaces Obsidian's Cmd+Shift+F (VS Code keeps it) |
+| Replace in All Files        | Ctrl+Shift+R                    |     ✓      |    —     | Displaces VS Code's Refactor…; no Obsidian command    |
 
 ### Markdown
 
-| Action                              | Chord        | VS Code |   Obsidian    | Notes                                   |
-| ----------------------------------- | ------------ | :-----: | :-----------: | --------------------------------------- |
-| Surround with `` `code` `` (inline) | Ctrl+Shift+K |    ✓    | Ctrl+Shift+=  | Obsidian keeps its own pre-existing key |
-| Surround with code block (fenced)   | Ctrl+Alt+K   |    ✓    | Ctrl+Shift+\\ | VS Code needs Markdown All in One       |
+| Action                              | Chord            | VS Code | Obsidian | Notes                             |
+| ----------------------------------- | ---------------- | :-----: | :------: | --------------------------------- |
+| Surround with `` `code` `` (inline) | Ctrl+Alt+Shift+G |    ✓    |    ✓     | VS Code needs Markdown All in One |
+| Surround with code block (fenced)   | Ctrl+Alt+Shift+B |    ✓    |    ✓     | VS Code needs Markdown All in One |
 
 ### App / window
 
-| Action                   | Chord                  |   VS Code    |   Obsidian   | Notes                                                                         |
-| ------------------------ | ---------------------- | :----------: | :----------: | ----------------------------------------------------------------------------- |
-| New Terminal             | Ctrl+T                 |      ✓       |      —       | Overlaps Nautilus's Ctrl+T = New Tab, deliberately                            |
-| Toggle Pin Editor Tab    | Shift+Alt+P            |      ✓       |      ✓       | Ctrl+Alt+P is taken system-wide (toggle preedit), so this sits on Shift+Alt+P |
-| Zoom In / Out (UI scale) | Ctrl+Plus / Ctrl+Minus |  ✓ (native)  |      ✓       |                                                                               |
-| Copy / Cut / Paste       | Ctrl+C / X / V         | ✓ (Mac only) | ✓ (Mac only) | Adds working Ctrl+C/X/V on macOS alongside Cmd+C/X/V                          |
+| Action                         | Chord                  |   VS Code    |   Obsidian   | Notes                                                |
+| ------------------------------ | ---------------------- | :----------: | :----------: | ---------------------------------------------------- |
+| Toggle Pin Editor Tab          | Ctrl+Alt+Shift+T       |      ✓       |      ✓       |                                                      |
+| Reveal Active File in Explorer | Ctrl+Alt+Shift+E       |      ✓       |      ✓       |                                                      |
+| Show in File Explorer / Finder | Ctrl+Alt+Shift+F       |      ✓       |      ✓       |                                                      |
+| Zoom In / Out (UI scale)       | Ctrl+Plus / Ctrl+Minus |  ✓ (native)  |      ✓       |                                                      |
+| Copy / Cut / Paste             | Ctrl+C / X / V         | ✓ (Mac only) | ✓ (Mac only) | Adds working Ctrl+C/X/V on macOS alongside Cmd+C/X/V |
 
 ### Obsidian only
 
-| Action                         | Chord                       | Notes                                        |
-| ------------------------------ | --------------------------- | -------------------------------------------- |
-| Reveal Active File in Explorer | Ctrl+Shift+Y                |                                              |
-| Open / Show in Default App     | Ctrl+Shift+O / Ctrl+Shift+S |                                              |
-| Search & Replace               | Ctrl+R                      |                                              |
-| Edit Task (Tasks plugin)       | Ctrl+Shift+T                | No-op without the plugin; unbinds Undo Close Tab |
-| Previous / Next Tab            | Ctrl+Shift+Tab / Ctrl+Tab   |                                              |
-| Open Daily Note                | Ctrl+N                      | Unbinds New Note                             |
+| Action              | Chord                     | Notes            |
+| ------------------- | ------------------------- | ---------------- |
+| Open in Default App | Ctrl+Alt+Shift+A          |                  |
+| Previous / Next Tab | Ctrl+Shift+Tab / Ctrl+Tab |                  |
+| Open Daily Note     | Ctrl+N                    | Unbinds New Note |
 
 ## Tweaking the keymap
 
@@ -127,5 +127,4 @@ make test      # uv run pytest
 make run       # uv run chordinate — print the renders
 make apply     # uv run chordinate --apply — write them into your live config
 make cheatsheet  # write cheatsheet.html, a printable (A4 landscape) sheet of every chord
-make cheatsheet-pdf  # also print it to cheatsheet.pdf (needs Chromium or Google Chrome; override with CHROME=...)
 ```

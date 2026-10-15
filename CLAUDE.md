@@ -15,7 +15,6 @@ uv run pytest tests/test_key_format.py::test_name   # single test
 make run            # print both renders (writes nothing)
 make apply          # chordinate --apply — writes into the REAL editor config on this machine
 make cheatsheet     # cheatsheet.html (printable A4 landscape)
-make cheatsheet-pdf # also cheatsheet.pdf via headless Chrome/Chromium (CHROME=... to override)
 ```
 
 Avoid running `make apply` / `chordinate --apply` unless asked: it replaces the user's live keymap files (with timestamped `.bak-` backups).
