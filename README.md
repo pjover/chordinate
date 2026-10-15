@@ -29,8 +29,8 @@ This is the proposed keymap — a considered default, not a fixed rule. Every ro
 | Duplicate Line or Selection | Ctrl+D                          |     ✓      |    —     | Displaces VS Code's Add Selection to Next Find Match (on Ctrl+Shift+L); no Obsidian command |
 | Join Lines                  | Ctrl+Shift+J                    |     ✓      |    —     |                                                       |
 | Insert Line Above           | Ctrl+Shift+Enter                |     ✓      |    —     |                                                       |
-| Toggle Word Wrap            | Alt+Z                           |     ✓      |    —     |                                                       |
-| Comment Line                | Ctrl+/ (+Ctrl+7 / Ctrl+Numpad÷) |     ✓      |    —     | Extra keys for Spanish keyboards                      |
+| Toggle Word Wrap            | Ctrl+Alt+Shift+Z                |     ✓      |    —     |                                                       |
+| Comment Line                | Ctrl+/ · Ctrl+Alt+Shift+Q (+Ctrl+7 / Ctrl+Numpad÷) |     ✓      |    ✓     | Extra keys for Spanish keyboards (VS Code only); on macOS replaces Obsidian's Cmd+/ |
 | Search in File              | Ctrl+F                          |     ✓      |    ✓     | Native on Linux; on macOS replaces Obsidian's Cmd+F (VS Code keeps it) |
 | Replace in File             | Ctrl+R                          |     ✓      |    ✓     | Displaces VS Code's Open Recent                       |
 | Search in All Files         | Ctrl+Shift+F                    |     ✓      |    ✓     | Native on Linux; on macOS replaces Obsidian's Cmd+Shift+F (VS Code keeps it) |
@@ -49,7 +49,7 @@ This is the proposed keymap — a considered default, not a fixed rule. Every ro
 | ------------------------------ | ---------------------- | :----------: | :----------: | ---------------------------------------------------- |
 | Toggle Pin Editor Tab          | Ctrl+Alt+Shift+T       |      ✓       |      ✓       |                                                      |
 | Reveal Active File in Explorer | Ctrl+Alt+Shift+E       |      ✓       |      ✓       |                                                      |
-| Show in File Explorer / Finder | Ctrl+Alt+Shift+F       |      ✓       |      ✓       |                                                      |
+| Show in File Explorer / Finder | Ctrl+Alt+Shift+W       |      ✓       |      ✓       |                                                      |
 | Zoom In / Out (UI scale)       | Ctrl+Plus / Ctrl+Minus |  ✓ (native)  |      ✓       |                                                      |
 | Copy / Cut / Paste             | Ctrl+C / X / V         | ✓ (Mac only) | ✓ (Mac only) | Adds working Ctrl+C/X/V on macOS alongside Cmd+C/X/V |
 

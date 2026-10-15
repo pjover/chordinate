@@ -80,20 +80,27 @@
       "id": "toggle-word-wrap",
       "action": "Toggle Word Wrap",
       "cheatsheet": {"group": "Editing"},
-      "vscode": {"entries": [{"command": "editor.action.toggleWordWrap", "key": "alt+z"}]}
+      "vscode": {"entries": [{"command": "editor.action.toggleWordWrap", "key": "ctrl+alt+shift+z"}]}
     },
     {
       "id": "comment-line",
       "action": "Comment Line",
-      "cheatsheet": {"group": "Editing", "keys": ["ctrl+/"], "note": "also Ctrl+7 · Ctrl+Numpad÷"},
+      "cheatsheet": {"group": "Editing", "keys": ["ctrl+/", "ctrl+alt+shift+q"], "note": "also Ctrl+7 · Ctrl+Numpad÷"},
       "vscode": {
         "entries": [
           {"command": "editor.action.commentLine", "key": "ctrl+7", "when": "editorTextFocus && !editorReadonly"},
           {"command": "-workbench.action.focusSeventhEditorGroup", "key": "ctrl+7"},
-          {"command": "editor.action.commentLine", "key": "ctrl+numpad_divide", "when": "editorTextFocus && !editorReadonly"}
+          {"command": "editor.action.commentLine", "key": "ctrl+numpad_divide", "when": "editorTextFocus && !editorReadonly"},
+          {"command": "editor.action.commentLine", "key": "ctrl+alt+shift+q", "when": "editorTextFocus && !editorReadonly"}
         ]
       },
-      "note": "Plain ctrl+/ needs no VS Code entry — already the native default. ctrl+7 and numpad-divide are accommodations for a Spanish keyboard layout."
+      "obsidian": {
+        "entries": [
+          {"command_id": "editor:toggle-comments", "key": "ctrl+/"},
+          {"command_id": "editor:toggle-comments", "key": "ctrl+alt+shift+q"}
+        ]
+      },
+      "note": "Plain ctrl+/ needs no VS Code entry — already the native default. ctrl+7 and numpad-divide are accommodations for a Spanish keyboard layout. Obsidian lists ctrl+/ explicitly because binding the command replaces its default Mod+/ hotkey."
     },
     {
       "id": "search-in-file",
@@ -176,8 +183,8 @@
       "id": "show-in-file-manager",
       "action": "Show in File Explorer / Finder",
       "cheatsheet": {"group": "App / window"},
-      "vscode": {"entries": [{"command": "revealFileInOS", "key": "ctrl+alt+shift+f"}]},
-      "obsidian": {"entries": [{"command_id": "open-with-default-app:show", "key": "ctrl+alt+shift+f"}]}
+      "vscode": {"entries": [{"command": "revealFileInOS", "key": "ctrl+alt+shift+w"}]},
+      "obsidian": {"entries": [{"command_id": "open-with-default-app:show", "key": "ctrl+alt+shift+w"}]}
     },
     {
       "id": "open-with-default-app",
