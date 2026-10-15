@@ -2,7 +2,7 @@ from chordinate.apply import apply_to_path
 
 
 def test_apply_to_path_writes_when_missing(tmp_path):
-    target = tmp_path / "sub" / "Personal.xml"
+    target = tmp_path / "sub" / "keybindings.json"
 
     result = apply_to_path("new content\n", target)
 
@@ -14,7 +14,7 @@ def test_apply_to_path_writes_when_missing(tmp_path):
 
 
 def test_apply_to_path_skips_when_content_identical(tmp_path):
-    target = tmp_path / "Personal.xml"
+    target = tmp_path / "keybindings.json"
     target.write_text("same content\n", encoding="utf-8")
 
     result = apply_to_path("same content\n", target)
@@ -25,14 +25,14 @@ def test_apply_to_path_skips_when_content_identical(tmp_path):
 
 
 def test_apply_to_path_backs_up_when_content_differs(tmp_path):
-    target = tmp_path / "Personal.xml"
+    target = tmp_path / "keybindings.json"
     target.write_text("old content\n", encoding="utf-8")
 
     result = apply_to_path("new content\n", target)
 
     assert result.action == "backed_up"
     assert result.backup_path is not None
-    assert result.backup_path.name.startswith("Personal.xml.bak-")
+    assert result.backup_path.name.startswith("keybindings.json.bak-")
     assert result.backup_path.read_text(encoding="utf-8") == "old content\n"
     assert target.read_text(encoding="utf-8") == "new content\n"
     # "old content" -> "new content" is a single line replaced: one line

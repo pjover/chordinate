@@ -4,24 +4,9 @@ import pytest
 
 from chordinate.paths import (
     UnsupportedOSError,
-    jetbrains_config_dir,
     obsidian_registry_path,
     vscode_user_dir,
 )
-
-
-def test_jetbrains_config_dir_on_linux(tmp_path, monkeypatch):
-    monkeypatch.setattr(platform, "system", lambda: "Linux")
-    monkeypatch.setenv("HOME", str(tmp_path))
-
-    assert jetbrains_config_dir() == tmp_path / ".config" / "JetBrains"
-
-
-def test_jetbrains_config_dir_on_macos(tmp_path, monkeypatch):
-    monkeypatch.setattr(platform, "system", lambda: "Darwin")
-    monkeypatch.setenv("HOME", str(tmp_path))
-
-    assert jetbrains_config_dir() == tmp_path / "Library" / "Application Support" / "JetBrains"
 
 
 def test_vscode_user_dir_on_linux(tmp_path, monkeypatch):
@@ -58,4 +43,4 @@ def test_unsupported_os_raises(monkeypatch):
     monkeypatch.setattr(platform, "system", lambda: "Windows")
 
     with pytest.raises(UnsupportedOSError):
-        jetbrains_config_dir()
+        vscode_user_dir()

@@ -17,10 +17,6 @@ def _config_base() -> Path:
     raise UnsupportedOSError(f"Unsupported OS: {system}")
 
 
-def jetbrains_config_dir() -> Path:
-    return _config_base() / "JetBrains"
-
-
 def vscode_user_dir() -> Path:
     return _config_base() / "Code" / "User"
 

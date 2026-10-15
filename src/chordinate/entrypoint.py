@@ -4,7 +4,6 @@ import argparse
 
 from chordinate.apply import apply_to_path
 from chordinate.destinations.base import Destination
-from chordinate.destinations.jetbrains import JetBrainsDestination
 from chordinate.destinations.obsidian import ObsidianDestination
 from chordinate.destinations.vscode import VSCodeDestination
 from chordinate.model import load_bindings
@@ -28,9 +27,6 @@ def _apply_destination(destination: Destination, content: str) -> None:
         else:
             print(f"+ wrote: {path}")
 
-    if destination.name == "jetbrains":
-        print('  → then: Settings → Keymap → select "Personal"')
-
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="chordinate")
@@ -41,7 +37,6 @@ def main(argv: list[str] | None = None) -> None:
 
     bindings = load_bindings()
     destinations: list[Destination] = [
-        JetBrainsDestination(),
         VSCodeDestination(),
         ObsidianDestination(),
     ]
