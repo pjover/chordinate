@@ -1,4 +1,4 @@
-from chordinate.key_format import to_display, to_obsidian, to_vscode
+from chordinate.key_format import to_display, to_obsidian, to_vscode, to_zed
 
 
 def test_to_vscode_passes_through_letters():
@@ -19,6 +19,12 @@ def test_to_obsidian_maps_ctrl_to_literal_ctrl_not_mod():
 def test_to_obsidian_page_keys_keep_camel_case():
     assert to_obsidian("ctrl+pageup") == (["Ctrl"], "PageUp")
     assert to_obsidian("ctrl+pagedown") == (["Ctrl"], "PageDown")
+
+
+def test_to_zed_joins_with_hyphens_and_types_plus_and_minus():
+    assert to_zed("ctrl+alt+shift+z") == "ctrl-alt-shift-z"
+    assert to_zed("ctrl+plus") == "ctrl-+"
+    assert to_zed("ctrl+minus") == "ctrl--"
 
 
 def test_to_display_uses_printable_names():

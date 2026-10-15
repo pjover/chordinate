@@ -23,3 +23,9 @@ def vscode_user_dir() -> Path:
 
 def obsidian_registry_path() -> Path:
     return _config_base() / "obsidian" / "obsidian.json"
+
+
+def zed_config_dir() -> Path:
+    # Zed uses ~/.config/zed on macOS too, not Application Support.
+    _config_base()  # reject unsupported OSes like the other apps
+    return Path.home() / ".config" / "zed"

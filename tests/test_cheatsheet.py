@@ -4,6 +4,7 @@ from chordinate.model import (
     CheatSheetEntry,
     ObsidianEntry,
     VSCodeEntry,
+    ZedEntry,
     load_bindings,
 )
 
@@ -19,9 +20,14 @@ def test_chord_keys_merges_apps_without_duplicates_or_removals():
             VSCodeEntry(command="-redo", key="ctrl+shift+y"),
         ],
         obsidian=[ObsidianEntry(command_id="editor:delete-paragraph", key="ctrl+y")],
+        zed=[
+            ZedEntry(key="ctrl+y", action="editor::DeleteLine", context="Editor"),
+            ZedEntry(key="alt+y", action=None, context="Editor"),
+            ZedEntry(key="ctrl+alt+y", action="editor::DeleteLine", context="Editor"),
+        ],
     )
 
-    assert chord_keys(binding) == ["ctrl+y"]
+    assert chord_keys(binding) == ["ctrl+y", "ctrl+alt+y"]
 
 
 def test_chord_keys_prefers_explicit_cheatsheet_keys():

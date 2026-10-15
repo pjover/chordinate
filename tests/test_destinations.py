@@ -3,7 +3,8 @@ import platform
 
 from chordinate.destinations.obsidian import ObsidianDestination
 from chordinate.destinations.vscode import VSCodeDestination
-from chordinate.model import Binding, ObsidianEntry, VSCodeEntry, load_bindings
+from chordinate.destinations.zed import ZedDestination
+from chordinate.model import Binding, ObsidianEntry, VSCodeEntry, ZedEntry, load_bindings
 
 
 def _binding(**kwargs) -> Binding:
@@ -52,14 +53,41 @@ def test_obsidian_entry_without_key_unbinds_the_command():
     assert hotkeys == {"file-explorer:new-file": []}
 
 
+def test_zed_destination_groups_by_context_in_first_seen_order():
+    bindings = [
+        _binding(zed=[ZedEntry(key="ctrl+y", action="editor::DeleteLine", context="Editor")]),
+        _binding(
+            zed=[
+                ZedEntry(key="ctrl+r", action=None, context="Workspace"),
+                ZedEntry(key="ctrl+d", action="editor::DuplicateSelection", context="Editor"),
+                ZedEntry(key="ctrl+plus", action=["zed::IncreaseBufferFontSize", {"persist": False}]),
+            ]
+        ),
+    ]
+
+    keymap = json.loads(ZedDestination().render(bindings))
+
+    assert keymap == [
+        {
+            "context": "Editor",
+            "bindings": {"ctrl-y": "editor::DeleteLine", "ctrl-d": "editor::DuplicateSelection"},
+        },
+        {"context": "Workspace", "bindings": {"ctrl-r": None}},
+        {"bindings": {"ctrl-+": ["zed::IncreaseBufferFontSize", {"persist": False}]}},
+    ]
+
+
+
 def test_all_destinations_render_the_full_real_config_without_error():
     bindings = load_bindings()
 
     vscode_json = VSCodeDestination().render(bindings)
     obsidian_json = ObsidianDestination().render(bindings)
+    zed_json = ZedDestination().render(bindings)
 
     assert "markdown.extension.editing.toggleCodeSpan" in vscode_json
     assert "workspace:toggle-pin" in obsidian_json
+    assert "pane::TogglePinTab" in zed_json
 
 
 def test_vscode_target_paths_when_installed(tmp_path, monkeypatch):
@@ -77,6 +105,21 @@ def test_vscode_target_paths_empty_when_not_installed(tmp_path, monkeypatch):
     monkeypatch.setenv("HOME", str(tmp_path))
 
     assert VSCodeDestination().target_paths() == []
+
+
+def test_zed_target_paths_when_installed(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Darwin")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    (tmp_path / ".config" / "zed").mkdir(parents=True)
+
+    assert ZedDestination().target_paths() == [tmp_path / ".config" / "zed" / "keymap.json"]
+
+
+def test_zed_target_paths_empty_when_not_installed(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Darwin")
+    monkeypatch.setenv("HOME", str(tmp_path))
+
+    assert ZedDestination().target_paths() == []
 
 
 def test_obsidian_target_paths_from_registry(tmp_path, monkeypatch):

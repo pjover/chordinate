@@ -26,6 +26,13 @@ _OBSIDIAN_KEY_NAMES = {
     "minus": "-",
 }
 
+# Zed matches the character a key types, so plus is "+" (the unshifted key on a
+# Spanish layout), not VS Code's US-position "=".
+_ZED_KEY_NAMES = {
+    "plus": "+",
+    "minus": "-",
+}
+
 
 _DISPLAY_NAMES = {
     "up": "↑",
@@ -58,6 +65,13 @@ def to_obsidian(key: str) -> tuple[list[str], str]:
     modifier_names = [m.capitalize() for m in modifiers]
     base_name = _OBSIDIAN_KEY_NAMES.get(base, base.upper() if len(base) == 1 else base.capitalize())
     return modifier_names, base_name
+
+
+def to_zed(key: str) -> str:
+    # Zed joins modifiers with "-"; "minus" therefore renders as "ctrl--".
+    modifiers, base = _split(key)
+    base_name = _ZED_KEY_NAMES.get(base, base)
+    return "-".join([*modifiers, base_name])
 
 
 def to_display(key: str) -> list[str]:
