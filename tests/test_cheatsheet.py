@@ -2,7 +2,6 @@ from chordinate.cheatsheet import chord_keys, group_rows, main, render
 from chordinate.model import (
     Binding,
     CheatSheetEntry,
-    JetBrainsEntry,
     ObsidianEntry,
     VSCodeEntry,
     load_bindings,
@@ -15,7 +14,6 @@ def _binding(**kwargs) -> Binding:
 
 def test_chord_keys_merges_apps_without_duplicates_or_removals():
     binding = _binding(
-        jetbrains=[JetBrainsEntry(action_id="EditorDeleteLine", keys=["ctrl+y"])],
         vscode=[
             VSCodeEntry(command="editor.action.deleteLines", key="ctrl+y"),
             VSCodeEntry(command="-redo", key="ctrl+shift+y"),
@@ -28,7 +26,7 @@ def test_chord_keys_merges_apps_without_duplicates_or_removals():
 
 def test_chord_keys_prefers_explicit_cheatsheet_keys():
     binding = _binding(
-        jetbrains=[JetBrainsEntry(action_id="ExpandAll", keys=["ctrl+alt+shift+plus"])],
+        vscode=[VSCodeEntry(command="workbench.action.zoomIn", key="ctrl+alt+shift+plus")],
         cheatsheet=CheatSheetEntry(keys=["ctrl+plus"]),
     )
 

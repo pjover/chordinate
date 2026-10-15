@@ -30,8 +30,7 @@ def chord_keys(binding: Binding) -> list[str]:
     """
     if binding.cheatsheet.keys:
         return binding.cheatsheet.keys
-    keys = [key for entry in binding.jetbrains for key in entry.keys]
-    keys += [entry.key for entry in binding.vscode if not entry.command.startswith("-")]
+    keys = [entry.key for entry in binding.vscode if not entry.command.startswith("-")]
     keys += [entry.key for entry in binding.obsidian if entry.key is not None]
     if not keys and binding.reserved_key:
         keys = [binding.reserved_key]

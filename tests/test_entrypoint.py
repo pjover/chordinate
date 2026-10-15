@@ -12,7 +12,6 @@ def test_main_runs_and_prints_every_destination(capsys):
     main([])
 
     captured = capsys.readouterr()
-    assert "# jetbrains" in captured.out
     assert "# vscode" in captured.out
     assert "# obsidian" in captured.out
 
@@ -50,7 +49,7 @@ def test_apply_reports_missing_destination(tmp_path, monkeypatch, capsys):
     main(["--apply"])
 
     captured = capsys.readouterr()
-    assert "! no jetbrains targets found" in captured.out
+    assert "! no vscode targets found" in captured.out
 
 
 def test_apply_is_idempotent_on_second_run(tmp_path, monkeypatch, capsys):
