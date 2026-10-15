@@ -6,6 +6,7 @@ from chordinate.apply import apply_to_path
 from chordinate.destinations.base import Destination
 from chordinate.destinations.obsidian import ObsidianDestination
 from chordinate.destinations.vscode import VSCodeDestination
+from chordinate.destinations.zed import ZedDestination
 from chordinate.model import load_bindings
 
 
@@ -39,6 +40,7 @@ def main(argv: list[str] | None = None) -> None:
     destinations: list[Destination] = [
         VSCodeDestination(),
         ObsidianDestination(),
+        ZedDestination(),
     ]
 
     for destination in destinations:

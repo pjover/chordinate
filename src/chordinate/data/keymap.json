@@ -11,6 +11,14 @@
           {"command": "-editor.action.moveLinesUpAction", "key": "alt+up", "when": "editorTextFocus && !editorReadonly"},
           {"command": "-editor.action.moveLinesDownAction", "key": "alt+down", "when": "editorTextFocus && !editorReadonly"}
         ]
+      },
+      "zed": {
+        "entries": [
+          {"action": "editor::MoveLineUp", "key": "ctrl+shift+up", "context": "Editor"},
+          {"action": "editor::MoveLineDown", "key": "ctrl+shift+down", "context": "Editor"},
+          {"action": null, "key": "alt+up", "context": "Editor && mode == full"},
+          {"action": null, "key": "alt+down", "context": "Editor && mode == full"}
+        ]
       }
     },
     {
@@ -36,6 +44,12 @@
           {"command": "-editor.action.insertCursorAbove", "key": "ctrl+shift+up", "when": "editorTextFocus"},
           {"command": "-editor.action.insertCursorBelow", "key": "ctrl+shift+down", "when": "editorTextFocus"}
         ]
+      },
+      "zed": {
+        "entries": [
+          {"action": ["editor::AddSelectionAbove", {"skip_soft_wrap": true}], "key": "shift+alt+up", "context": "Editor"},
+          {"action": ["editor::AddSelectionBelow", {"skip_soft_wrap": true}], "key": "shift+alt+down", "context": "Editor"}
+        ]
       }
     },
     {
@@ -49,7 +63,8 @@
         ]
       },
       "obsidian": {"entries": [{"command_id": "editor:delete-paragraph", "key": "ctrl+y"}]},
-      "note": "Strongest cross-app alignment in the project — matches Obsidian's own pre-existing binding. ctrl+y in VS Code deliberately displaces Redo (Redo stays on ctrl+shift+z)."
+      "zed": {"entries": [{"action": "editor::DeleteLine", "key": "ctrl+y", "context": "Editor"}]},
+      "note": "Strongest cross-app alignment in the project — matches Obsidian's own pre-existing binding. ctrl+y in VS Code and Zed deliberately displaces Redo (Redo stays on ctrl+shift+z)."
     },
     {
       "id": "duplicate-line",
@@ -61,6 +76,7 @@
           {"command": "-editor.action.addSelectionToNextFindMatch", "key": "ctrl+d"}
         ]
       },
+      "zed": {"entries": [{"action": "editor::DuplicateSelection", "key": "ctrl+d", "context": "Editor"}]},
       "note": "VS Code has no default chord for Duplicate Selection (which duplicates the whole line when nothing is selected), so it takes ctrl+d here, displacing Add Selection to Next Find Match — that one stays available on ctrl+shift+l (Select All Occurrences, VS Code's native default). Obsidian has no duplicate-line command at all."
     },
     {
@@ -68,19 +84,22 @@
       "action": "Join Lines",
       "cheatsheet": {"group": "Editing"},
       "vscode": {"entries": [{"command": "editor.action.joinLines", "key": "ctrl+shift+j"}]},
+      "zed": {"entries": [{"action": "editor::JoinLines", "key": "ctrl+shift+j", "context": "Editor"}]},
       "note": "Plain ctrl+j was rejected — it collides with VS Code's own Toggle Panel chord."
     },
     {
       "id": "insert-line-above",
       "action": "Insert Line Above",
       "cheatsheet": {"group": "Editing"},
-      "vscode": {"entries": [{"command": "editor.action.insertLineBefore", "key": "ctrl+shift+enter", "when": "editorTextFocus && !editorReadonly"}]}
+      "vscode": {"entries": [{"command": "editor.action.insertLineBefore", "key": "ctrl+shift+enter", "when": "editorTextFocus && !editorReadonly"}]},
+      "zed": {"entries": [{"action": "editor::NewlineAbove", "key": "ctrl+shift+enter", "context": "Editor && mode == full"}]}
     },
     {
       "id": "toggle-word-wrap",
       "action": "Toggle Word Wrap",
       "cheatsheet": {"group": "Editing"},
-      "vscode": {"entries": [{"command": "editor.action.toggleWordWrap", "key": "ctrl+alt+shift+z"}]}
+      "vscode": {"entries": [{"command": "editor.action.toggleWordWrap", "key": "ctrl+alt+shift+z"}]},
+      "zed": {"entries": [{"action": "editor::ToggleSoftWrap", "key": "ctrl+alt+shift+z", "context": "Editor"}]}
     },
     {
       "id": "comment-line",
@@ -100,7 +119,14 @@
           {"command_id": "editor:toggle-comments", "key": "ctrl+alt+shift+q"}
         ]
       },
-      "note": "Plain ctrl+/ needs no VS Code entry — already the native default. ctrl+7 and numpad-divide are accommodations for a Spanish keyboard layout. Obsidian lists ctrl+/ explicitly because binding the command replaces its default Mod+/ hotkey."
+      "zed": {
+        "entries": [
+          {"action": ["editor::ToggleComments", {"advance_downwards": false, "comment_empty_lines": false}], "key": "ctrl+/", "context": "Editor"},
+          {"action": ["editor::ToggleComments", {"advance_downwards": false, "comment_empty_lines": false}], "key": "ctrl+7", "context": "Editor"},
+          {"action": ["editor::ToggleComments", {"advance_downwards": false, "comment_empty_lines": false}], "key": "ctrl+alt+shift+q", "context": "Editor"}
+        ]
+      },
+      "note": "Plain ctrl+/ needs no VS Code entry — already the native default. ctrl+7 and numpad-divide are accommodations for a Spanish keyboard layout. Obsidian lists ctrl+/ explicitly because binding the command replaces its default Mod+/ hotkey. Zed lists it so macOS gains Ctrl+/ next to Cmd+/; Zed has no numpad key names (the numpad / types '/', which ctrl+/ already matches), and its ctrl+7 displaces macOS's go-to-tab-7. The args match Zed's VS Code base keymap."
     },
     {
       "id": "search-in-file",
@@ -108,7 +134,8 @@
       "cheatsheet": {"group": "Editing"},
       "vscode": {"entries": [{"command": "actions.find", "key": "ctrl+f", "when": "editorFocus || editorIsOpen"}]},
       "obsidian": {"entries": [{"command_id": "editor:open-search", "key": "ctrl+f"}]},
-      "note": "Already native on Linux in both apps. On macOS VS Code gains Ctrl+F alongside Cmd+F, while Obsidian's custom hotkey replaces its Cmd+F default."
+      "zed": {"entries": [{"action": "buffer_search::Deploy", "key": "ctrl+f", "context": "Editor && mode == full"}]},
+      "note": "Already native on Linux in all three apps. On macOS VS Code and Zed gain Ctrl+F alongside Cmd+F (Zed loses its emacs-style cursor-right there), while Obsidian's custom hotkey replaces its Cmd+F default."
     },
     {
       "id": "replace-in-file",
@@ -121,7 +148,13 @@
         ]
       },
       "obsidian": {"entries": [{"command_id": "editor:open-search-replace", "key": "ctrl+r"}]},
-      "note": "ctrl+r displaces VS Code's Open Recent (still in the File menu and the command palette)."
+      "zed": {
+        "entries": [
+          {"action": null, "key": "ctrl+r", "context": "Workspace"},
+          {"action": "buffer_search::DeployReplace", "key": "ctrl+r", "context": "Editor && mode == full"}
+        ]
+      },
+      "note": "ctrl+r displaces VS Code's Open Recent (still in the File menu and the command palette). Zed's Open Recent is unbound on ctrl+r too; the null also stops DeployReplace from falling through to it when the search bar is already open."
     },
     {
       "id": "search-in-all-files",
@@ -129,7 +162,13 @@
       "cheatsheet": {"group": "Editing"},
       "vscode": {"entries": [{"command": "workbench.action.findInFiles", "key": "ctrl+shift+f"}]},
       "obsidian": {"entries": [{"command_id": "global-search:open", "key": "ctrl+shift+f"}]},
-      "note": "Already native on Linux in both apps. On macOS VS Code gains Ctrl+Shift+F alongside Cmd+Shift+F, while Obsidian's custom hotkey replaces its Cmd+Shift+F default."
+      "zed": {
+        "entries": [
+          {"action": "pane::DeploySearch", "key": "ctrl+shift+f", "context": "Workspace"},
+          {"action": "pane::DeploySearch", "key": "ctrl+shift+f", "context": "Editor"}
+        ]
+      },
+      "note": "Already native on Linux in all three apps. On macOS VS Code and Zed gain Ctrl+Shift+F alongside Cmd+Shift+F, while Obsidian's custom hotkey replaces its Cmd+Shift+F default. Zed needs an Editor-context entry too, because on macOS its editor binds ctrl+shift+f to select-right, which would outrank a Workspace-only binding."
     },
     {
       "id": "replace-in-all-files",
@@ -141,7 +180,8 @@
           {"command": "-editor.action.refactor", "key": "ctrl+shift+r"}
         ]
       },
-      "note": "ctrl+shift+r displaces VS Code's Refactor… menu (still reachable through Ctrl+. and the context menu). Obsidian has no replace-across-vault command."
+      "zed": {"entries": [{"action": ["pane::DeploySearch", {"replace_enabled": true}], "key": "ctrl+shift+r", "context": "Workspace"}]},
+      "note": "ctrl+shift+r displaces VS Code's Refactor… menu (still reachable through Ctrl+. and the context menu) and Zed's Linux Rerun Task. Obsidian has no replace-across-vault command."
     },
     {
       "id": "surround-with-backticks",
@@ -170,6 +210,7 @@
         ]
       },
       "obsidian": {"entries": [{"command_id": "workspace:toggle-pin", "key": "ctrl+alt+shift+t"}]},
+      "zed": {"entries": [{"action": "pane::TogglePinTab", "key": "ctrl+alt+shift+t", "context": "Pane"}]},
       "note": "VS Code has no single 'toggle pin' command (a feature request for one is still open upstream) — two conditional bindings simulate it."
     },
     {
@@ -177,14 +218,17 @@
       "action": "Reveal Active File in Explorer",
       "cheatsheet": {"group": "App / window"},
       "vscode": {"entries": [{"command": "workbench.files.action.showActiveFileInExplorer", "key": "ctrl+alt+shift+e"}]},
-      "obsidian": {"entries": [{"command_id": "file-explorer:reveal-active-file", "key": "ctrl+alt+shift+e"}]}
+      "obsidian": {"entries": [{"command_id": "file-explorer:reveal-active-file", "key": "ctrl+alt+shift+e"}]},
+      "zed": {"entries": [{"action": "pane::RevealInProjectPanel", "key": "ctrl+alt+shift+e", "context": "Editor && mode == full"}]},
+      "note": "In Zed this displaces the Linux Toggle Edit Prediction chord."
     },
     {
       "id": "show-in-file-manager",
       "action": "Show in File Explorer / Finder",
       "cheatsheet": {"group": "App / window"},
       "vscode": {"entries": [{"command": "revealFileInOS", "key": "ctrl+alt+shift+w"}]},
-      "obsidian": {"entries": [{"command_id": "open-with-default-app:show", "key": "ctrl+alt+shift+w"}]}
+      "obsidian": {"entries": [{"command_id": "open-with-default-app:show", "key": "ctrl+alt+shift+w"}]},
+      "zed": {"entries": [{"action": "editor::RevealInFileManager", "key": "ctrl+alt+shift+w", "context": "Editor"}]}
     },
     {
       "id": "open-with-default-app",
@@ -226,7 +270,13 @@
           {"command_id": "window:zoom-out", "key": "ctrl+minus"}
         ]
       },
-      "note": "VS Code needs no entries — ctrl+plus/ctrl+minus are already its native zoom in/out on every platform. Nautilus already uses the same keys by its own convention. Reset is deliberately NOT unified — each app keeps its own working default (VS Code ctrl+numpad0, Obsidian ctrl+0) since forcing one key costs more than a rarely-used action is worth."
+      "zed": {
+        "entries": [
+          {"action": ["zed::IncreaseBufferFontSize", {"persist": false}], "key": "ctrl+plus"},
+          {"action": ["zed::DecreaseBufferFontSize", {"persist": false}], "key": "ctrl+minus"}
+        ]
+      },
+      "note": "VS Code needs no entries — ctrl+plus/ctrl+minus are already its native zoom in/out on every platform. Nautilus already uses the same keys by its own convention. Zed has no whole-app zoom: its View → Zoom In/Out menu scales the buffer font, so these entries use the same actions. They have no context, matching Zed's own zoom bindings, so on macOS they beat ctrl+minus's Go Back in panes. Reset is deliberately NOT unified — each app keeps its own working default (VS Code ctrl+numpad0, Obsidian ctrl+0, Zed Cmd+0 / Ctrl+0) since forcing one key costs more than a rarely-used action is worth."
     },
     {
       "id": "copy-cut-paste",
@@ -246,7 +296,14 @@
           {"command_id": "editor:paste", "key": "ctrl+v"}
         ]
       },
-      "note": "Adds ctrl+c/x/v as working shortcuts on macOS alongside the native Cmd+C/X/V, not replacing them. VS Code's own ctrl+c/x/v for these commands are gated to non-Mac platforms by VS Code itself, so this only adds real capability on Mac (harmless no-op on Linux, which already has it natively)."
+      "zed": {
+        "entries": [
+          {"action": "editor::Copy", "key": "ctrl+c", "context": "Editor"},
+          {"action": "editor::Cut", "key": "ctrl+x", "context": "Editor"},
+          {"action": "editor::Paste", "key": "ctrl+v", "context": "Editor"}
+        ]
+      },
+      "note": "Adds ctrl+c/x/v as working shortcuts on macOS alongside the native Cmd+C/X/V, not replacing them. VS Code's own ctrl+c/x/v for these commands are gated to non-Mac platforms by VS Code itself, so this only adds real capability on Mac (harmless no-op on Linux, which already has it natively). Zed's entries are editor-only, so ctrl+c in its terminal still sends SIGINT."
     }
   ]
 }

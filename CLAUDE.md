@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`chordinate` renders one keymap definition (`src/chordinate/data/keymap.json`) into native keymap files for VS Code (`keybindings.json`) and Obsidian (`hotkeys.json`), and optionally writes them into the live config dirs. macOS and Linux only (Windows raises `UnsupportedOSError`). Python ≥3.12, managed with `uv`, no runtime dependencies.
+`chordinate` renders one keymap definition (`src/chordinate/data/keymap.json`) into native keymap files for VS Code (`keybindings.json`), Obsidian (`hotkeys.json`) and Zed (`keymap.json`), and optionally writes them into the live config dirs. macOS and Linux only (Windows raises `UnsupportedOSError`). Python ≥3.12, managed with `uv`, no runtime dependencies.
 
 ## Commands
 
@@ -24,16 +24,17 @@ Avoid running `make apply` / `chordinate --apply` unless asked: it replaces the 
 Pipeline: `model.load_bindings()` → each `Destination.render(bindings)` → stdout, or `apply.apply_to_path()` for each `Destination.target_paths()`.
 
 - **`model.py`** — frozen dataclasses (`Binding` with per-app entry lists + `CheatSheetEntry`). Config lookup order: `$CHORDINATE_HOME/keymap.json`, `./keymap.json`, `~/.config/chordinate/keymap.json`, then the bundled `chordinate.data/keymap.json` (loaded via `importlib.resources`). Note `./keymap.json` means a `keymap.json` in the repo root would shadow the bundled one.
-- **`key_format.py`** — keys in `keymap.json` are always written in one canonical notation (`ctrl+shift+plus`, lowercase, `+`-joined). This module is the only place translating to each app's syntax (`to_vscode`, `to_obsidian`) and to display glyphs (`to_display`). New key names must be added to the per-app maps here.
-- **`destinations/`** — one class per app implementing the `Destination` protocol in `base.py` (`name`, `render`, `target_paths`). Target discovery: VS Code = `Code/User/keybindings.json` if `Code/` exists; Obsidian = every vault in the `obsidian/obsidian.json` registry. Base dirs come from `paths.py`. Missing apps return `[]` and are skipped — never create directories for absent apps.
+- **`key_format.py`** — keys in `keymap.json` are always written in one canonical notation (`ctrl+shift+plus`, lowercase, `+`-joined). This module is the only place translating to each app's syntax (`to_vscode`, `to_obsidian`, `to_zed`) and to display glyphs (`to_display`). New key names must be added to the per-app maps here.
+- **`destinations/`** — one class per app implementing the `Destination` protocol in `base.py` (`name`, `render`, `target_paths`). Target discovery: VS Code = `Code/User/keybindings.json` if `Code/` exists; Obsidian = every vault in the `obsidian/obsidian.json` registry; Zed = `~/.config/zed/keymap.json` if `~/.config/zed/` exists (on macOS too, not Application Support). Base dirs come from `paths.py`. Missing apps return `[]` and are skipped — never create directories for absent apps.
 - **`apply.py`** — idempotent write: identical → skip; existing → rename to `<name>.bak-YYYYMMDD-HHMMSS` and report +/- line counts; else write. Replaces, does not merge.
-- **`cheatsheet.py`** — groups bindings by `cheatsheet.group` (`GROUP_ORDER` first, unknown groups appended) and fills the template `data/cheatsheet.html`. Chord keys come from `cheatsheet.keys` if set, else collected from all app entries (skipping VS Code `-command` removals), else `reserved_key`.
+- **`cheatsheet.py`** — groups bindings by `cheatsheet.group` (`GROUP_ORDER` first, unknown groups appended) and fills the template `data/cheatsheet.html`. Chord keys come from `cheatsheet.keys` if set, else collected from all app entries (skipping VS Code `-command` removals and Zed `null` unbinds), else `reserved_key`.
 
 ## keymap.json semantics worth knowing
 
 - **VS Code removals**: an entry whose `command` starts with `-` unbinds a default on that key.
 - **Obsidian removals**: an entry with a `command_id` and no `key` renders `[]`, unbinding that command's default hotkey.
-- **Obsidian `ctrl` renders as literal `Ctrl`**, never `Mod` (which is Cmd on macOS), so the same chord means the physical Ctrl key in both apps.
+- **Obsidian `ctrl` renders as literal `Ctrl`**, never `Mod` (which is Cmd on macOS), so the same chord means the physical Ctrl key in every app.
+- **Zed entries** are `{"action", "key", "context"?}`; `action` is a string, `[name, {args}]`, or `null` (unbinds that key in that context). The render groups entries into one section per context. Zed layers the file over its defaults, and the deepest matching context wins, so chords Zed's editor already uses need `Editor` context. `plus` renders as `+` (Zed matches the typed character), not VS Code's `=`.
 - `reserved_key` marks a chord held for future use with no app entries.
 - `"cheatsheet": false` hides a binding from the sheet.
 - Chord choices are deliberately chosen to avoid collisions with Omarchy (Linux) and macOS system shortcuts and Nautilus; the `note` fields in `keymap.json` record why. The README "Keymap summary" tables mirror `keymap.json` — update them when changing bindings.

@@ -6,6 +6,7 @@ from chordinate.paths import (
     UnsupportedOSError,
     obsidian_registry_path,
     vscode_user_dir,
+    zed_config_dir,
 )
 
 
@@ -37,6 +38,13 @@ def test_obsidian_registry_path_on_macos(tmp_path, monkeypatch):
 
     expected = tmp_path / "Library" / "Application Support" / "obsidian" / "obsidian.json"
     assert obsidian_registry_path() == expected
+
+
+def test_zed_config_dir_is_dot_config_even_on_macos(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Darwin")
+    monkeypatch.setenv("HOME", str(tmp_path))
+
+    assert zed_config_dir() == tmp_path / ".config" / "zed"
 
 
 def test_unsupported_os_raises(monkeypatch):
