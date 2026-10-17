@@ -29,3 +29,9 @@ def zed_config_dir() -> Path:
     # Zed uses ~/.config/zed on macOS too, not Application Support.
     _config_base()  # reject unsupported OSes like the other apps
     return Path.home() / ".config" / "zed"
+
+
+def fresh_config_dir() -> Path:
+    # Fresh uses ~/.config/fresh on macOS too, not Application Support.
+    _config_base()  # reject unsupported OSes like the other apps
+    return Path.home() / ".config" / "fresh"

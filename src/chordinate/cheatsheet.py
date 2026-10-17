@@ -26,14 +26,15 @@ def chord_keys(binding: Binding) -> list[str]:
     """The keys to print for a binding, in canonical notation, without duplicates.
 
     An explicit cheatsheet `keys` list wins; otherwise keys are collected from every
-    app's entries (VS Code `-command` removals and Zed null unbinds skipped), falling
-    back to the reserved key.
+    app's entries (VS Code `-command` removals, Zed null unbinds and Fresh `unbind`s
+    skipped), falling back to the reserved key.
     """
     if binding.cheatsheet.keys:
         return binding.cheatsheet.keys
     keys = [entry.key for entry in binding.vscode if not entry.command.startswith("-")]
     keys += [entry.key for entry in binding.obsidian if entry.key is not None]
     keys += [entry.key for entry in binding.zed if entry.action is not None]
+    keys += [entry.key for entry in binding.fresh if entry.action != "unbind"]
     if not keys and binding.reserved_key:
         keys = [binding.reserved_key]
     return list(dict.fromkeys(keys))

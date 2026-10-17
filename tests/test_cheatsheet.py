@@ -2,6 +2,7 @@ from chordinate.cheatsheet import chord_keys, group_rows, main, render
 from chordinate.model import (
     Binding,
     CheatSheetEntry,
+    FreshEntry,
     ObsidianEntry,
     VSCodeEntry,
     ZedEntry,
@@ -25,9 +26,14 @@ def test_chord_keys_merges_apps_without_duplicates_or_removals():
             ZedEntry(key="alt+y", action=None, context="Editor"),
             ZedEntry(key="ctrl+alt+y", action="editor::DeleteLine", context="Editor"),
         ],
+        fresh=[
+            FreshEntry(key="ctrl+y", action="delete_line"),
+            FreshEntry(key="alt+shift+y", action="unbind"),
+            FreshEntry(key="ctrl+shift+z", action="redo"),
+        ],
     )
 
-    assert chord_keys(binding) == ["ctrl+y", "ctrl+alt+y"]
+    assert chord_keys(binding) == ["ctrl+y", "ctrl+alt+y", "ctrl+shift+z"]
 
 
 def test_chord_keys_prefers_explicit_cheatsheet_keys():

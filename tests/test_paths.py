@@ -4,6 +4,7 @@ import pytest
 
 from chordinate.paths import (
     UnsupportedOSError,
+    fresh_config_dir,
     obsidian_registry_path,
     vscode_user_dir,
     zed_config_dir,
@@ -45,6 +46,13 @@ def test_zed_config_dir_is_dot_config_even_on_macos(tmp_path, monkeypatch):
     monkeypatch.setenv("HOME", str(tmp_path))
 
     assert zed_config_dir() == tmp_path / ".config" / "zed"
+
+
+def test_fresh_config_dir_is_dot_config_even_on_macos(tmp_path, monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Darwin")
+    monkeypatch.setenv("HOME", str(tmp_path))
+
+    assert fresh_config_dir() == tmp_path / ".config" / "fresh"
 
 
 def test_unsupported_os_raises(monkeypatch):
