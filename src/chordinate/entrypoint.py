@@ -3,20 +3,27 @@ from __future__ import annotations
 import argparse
 
 from chordinate.apply import apply_to_path
-from chordinate.destinations.base import Destination
+from chordinate.destinations.base import Destination, MergeError
+from chordinate.destinations.fresh import FreshDestination
 from chordinate.destinations.obsidian import ObsidianDestination
 from chordinate.destinations.vscode import VSCodeDestination
 from chordinate.destinations.zed import ZedDestination
 from chordinate.model import load_bindings
 
 
-def _apply_destination(destination: Destination, content: str) -> None:
+def _apply_destination(destination: Destination, rendered: str) -> None:
     target_paths = destination.target_paths()
     if not target_paths:
         print(f"! no {destination.name} targets found")
         return
 
     for path in target_paths:
+        current = path.read_text(encoding="utf-8") if path.is_file() else None
+        try:
+            content = destination.merge(rendered, current)
+        except MergeError as error:
+            print(f"! skipped {path}: {error}")
+            continue
         result = apply_to_path(content, path)
         if result.action == "skipped":
             print(f"= already up to date: {path}")
@@ -41,6 +48,7 @@ def main(argv: list[str] | None = None) -> None:
         VSCodeDestination(),
         ObsidianDestination(),
         ZedDestination(),
+        FreshDestination(),
     ]
 
     for destination in destinations:

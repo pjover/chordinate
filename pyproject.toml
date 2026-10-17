@@ -1,7 +1,7 @@
 [project]
 name = "chordinate"
 version = "0.1.0"
-description = "A single source of truth for keymaps across VS Code, Obsidian and Zed."
+description = "A single source of truth for keymaps across VS Code, Obsidian, Zed and Fresh."
 readme = "README.md"
 requires-python = ">=3.12"
 license = "GPL-3.0-only"

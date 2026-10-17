@@ -1,4 +1,4 @@
-from chordinate.key_format import to_display, to_obsidian, to_vscode, to_zed
+from chordinate.key_format import to_display, to_fresh, to_obsidian, to_vscode, to_zed
 
 
 def test_to_vscode_passes_through_letters():
@@ -25,6 +25,14 @@ def test_to_zed_joins_with_hyphens_and_types_plus_and_minus():
     assert to_zed("ctrl+alt+shift+z") == "ctrl-alt-shift-z"
     assert to_zed("ctrl+plus") == "ctrl-+"
     assert to_zed("ctrl+minus") == "ctrl--"
+
+
+def test_to_fresh_spells_named_keys_like_fresh_and_types_plus_and_minus():
+    assert to_fresh("ctrl+shift+up") == (["ctrl", "shift"], "Up")
+    assert to_fresh("ctrl+pagedown") == (["ctrl"], "PageDown")
+    assert to_fresh("ctrl+alt+shift+z") == (["ctrl", "alt", "shift"], "z")
+    assert to_fresh("ctrl+plus") == (["ctrl"], "+")
+    assert to_fresh("ctrl+minus") == (["ctrl"], "-")
 
 
 def test_to_display_uses_printable_names():

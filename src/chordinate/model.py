@@ -29,6 +29,15 @@ class ZedEntry:
 
 
 @dataclass(frozen=True)
+class FreshEntry:
+    key: str
+    # A Fresh action name; "unbind" removes the keymap's own binding on `key`.
+    action: str
+    when: str | None = None
+    args: dict | None = None
+
+
+@dataclass(frozen=True)
 class CheatSheetEntry:
     group: str = "Other"
     label: str | None = None
@@ -44,6 +53,7 @@ class Binding:
     vscode: list[VSCodeEntry] = field(default_factory=list)
     obsidian: list[ObsidianEntry] = field(default_factory=list)
     zed: list[ZedEntry] = field(default_factory=list)
+    fresh: list[FreshEntry] = field(default_factory=list)
     note: str | None = None
     reserved_key: str | None = None
     cheatsheet: CheatSheetEntry = field(default_factory=CheatSheetEntry)
@@ -67,6 +77,14 @@ def _load_zed(raw: dict) -> list[ZedEntry]:
     return [ZedEntry(key=e["key"], action=e["action"], context=e.get("context")) for e in entries]
 
 
+def _load_fresh(raw: dict) -> list[FreshEntry]:
+    entries = raw.get("fresh", {}).get("entries", [])
+    return [
+        FreshEntry(key=e["key"], action=e["action"], when=e.get("when"), args=e.get("args"))
+        for e in entries
+    ]
+
+
 def _load_cheatsheet(raw: dict) -> CheatSheetEntry:
     entry = raw.get("cheatsheet", {})
     if entry is False:
@@ -86,6 +104,7 @@ def _load_binding(raw: dict) -> Binding:
         vscode=_load_vscode(raw),
         obsidian=_load_obsidian(raw),
         zed=_load_zed(raw),
+        fresh=_load_fresh(raw),
         note=raw.get("note"),
         reserved_key=raw.get("reserved_key"),
         cheatsheet=_load_cheatsheet(raw),

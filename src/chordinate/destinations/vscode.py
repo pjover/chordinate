@@ -21,6 +21,9 @@ class VSCodeDestination:
                 entries.append(item)
         return json.dumps(entries, indent=4) + "\n"
 
+    def merge(self, rendered: str, current: str | None) -> str:
+        return rendered  # chordinate owns the whole file
+
     def target_paths(self) -> list[Path]:
         user_dir = vscode_user_dir()
         if not user_dir.parent.is_dir():

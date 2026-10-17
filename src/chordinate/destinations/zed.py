@@ -25,6 +25,9 @@ class ZedDestination:
             keymap.append(section)
         return json.dumps(keymap, indent=2) + "\n"
 
+    def merge(self, rendered: str, current: str | None) -> str:
+        return rendered  # chordinate owns the whole file
+
     def target_paths(self) -> list[Path]:
         config_dir = zed_config_dir()
         if not config_dir.is_dir():

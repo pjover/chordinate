@@ -2,6 +2,7 @@ import difflib
 import json
 import platform
 
+from chordinate.destinations.fresh import FreshDestination
 from chordinate.destinations.obsidian import ObsidianDestination
 from chordinate.destinations.vscode import VSCodeDestination
 from chordinate.entrypoint import main
@@ -119,3 +120,41 @@ def test_apply_reports_line_diff_counts_when_backing_up(tmp_path, monkeypatch, c
         and f"(+{expected_added}/-{expected_removed} lines)" in captured.out
     )
     assert target.read_text(encoding="utf-8") == new_content
+
+
+def test_apply_merges_keybindings_into_existing_fresh_config(tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    config_dir = tmp_path / ".config" / "fresh"
+    config_dir.mkdir(parents=True)
+    target = config_dir / "config.json"
+    target.write_text(
+        json.dumps({"theme": "omarchy.json", "keybindings": [], "editor": {"tab_size": 2}}),
+        encoding="utf-8",
+    )
+
+    main(["--apply"])
+    main(["--apply"])
+
+    captured = capsys.readouterr()
+    config = json.loads(target.read_text(encoding="utf-8"))
+    expected = json.loads(FreshDestination().render(load_bindings()))["keybindings"]
+    assert config == {"theme": "omarchy.json", "keybindings": expected, "editor": {"tab_size": 2}}
+    assert f"= already up to date: {target}" in captured.out
+
+
+def test_apply_skips_fresh_config_with_comments_and_leaves_it_untouched(tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setenv("HOME", str(tmp_path))
+    config_dir = tmp_path / ".config" / "fresh"
+    config_dir.mkdir(parents=True)
+    target = config_dir / "config.json"
+    original = '{\n  // my theme\n  "theme": "dark"\n}\n'
+    target.write_text(original, encoding="utf-8")
+
+    main(["--apply"])
+
+    captured = capsys.readouterr()
+    assert f"! skipped {target}: not plain JSON" in captured.out
+    assert target.read_text(encoding="utf-8") == original
+    assert list(config_dir.iterdir()) == [target]

@@ -22,6 +22,9 @@ class ObsidianDestination:
                 hotkeys[entry.command_id].append({"modifiers": modifiers, "key": key})
         return json.dumps(hotkeys, indent=2) + "\n"
 
+    def merge(self, rendered: str, current: str | None) -> str:
+        return rendered  # chordinate owns the whole file
+
     def target_paths(self) -> list[Path]:
         registry_path = obsidian_registry_path()
         if not registry_path.is_file():

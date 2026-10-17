@@ -33,6 +33,22 @@ _ZED_KEY_NAMES = {
     "minus": "-",
 }
 
+# Fresh spells named keys the way its own keymaps do ("Up", "PageUp") and matches
+# punctuation by the character typed, like Zed.
+_FRESH_KEY_NAMES = {
+    "up": "Up",
+    "down": "Down",
+    "left": "Left",
+    "right": "Right",
+    "enter": "Enter",
+    "tab": "Tab",
+    "escape": "Escape",
+    "pageup": "PageUp",
+    "pagedown": "PageDown",
+    "plus": "+",
+    "minus": "-",
+}
+
 
 _DISPLAY_NAMES = {
     "up": "↑",
@@ -72,6 +88,11 @@ def to_zed(key: str) -> str:
     modifiers, base = _split(key)
     base_name = _ZED_KEY_NAMES.get(base, base)
     return "-".join([*modifiers, base_name])
+
+
+def to_fresh(key: str) -> tuple[list[str], str]:
+    modifiers, base = _split(key)
+    return modifiers, _FRESH_KEY_NAMES.get(base, base)
 
 
 def to_display(key: str) -> list[str]:
